@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "utlHpRQIMPGQD2nHiOCQxzwzsqdK4AbpmvKDzkTLR+ssSyGtKzbh+oGPalaXki005bd8qDXIpa82MkGiFq/HrQ==",
+  "dgSpecHash": "xwUqGGNu8c7fQmg5iYg8WDagljXPcsirNdsbQiqtZsarlsdVcrMarB5GeUWzFaptP/KulwLXouxcJ9VtncHpqg==",
   "success": true,
-  "projectFilePath": "D:\\SoftUni-Work\\React\\RecipeBook Project\\src\\API\\API\\API.csproj",
+  "projectFilePath": "D:\\SoftUni-Work\\React\\RecipeBook Project\\src\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ilia Iliev\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Ilia Iliev\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

@@ -1,6 +1,8 @@
 ﻿using API.Data;
+using API.Data.Models;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -26,6 +28,27 @@ namespace API.Controllers
                     MaxMinutes = recipe.MaxMinutes,
                 })
                 .ToList();
+        }
+
+        [HttpPost("~/create")]
+        public IActionResult CreateRecipe([FromBody] RecipeInputModel recipe)
+        {
+            var newRecipe = new Recipe
+            {
+                Title = recipe.Title,
+                ImageURI = recipe.ImageURI,
+                Description = recipe.Description,
+                MinMinutes = recipe.MinMinutes,
+                MaxMinutes = recipe.MaxMinutes,
+                UserId = recipe.UserId,
+            };
+
+            context.Recipes.Add(newRecipe);
+            context.SaveChanges();
+
+            var result = context.Recipes.FirstOrDefault(recipe => recipe.Id == newRecipe.Id);
+
+            return Ok(result);
         }
     }
 }

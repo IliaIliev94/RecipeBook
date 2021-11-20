@@ -1,6 +1,6 @@
 ﻿namespace API.Models
 {
-    public sealed class RecipeCatalogViewModel
+    public class RecipeInputModel
     {
         public Guid Id { get; init; }
 
@@ -13,5 +13,7 @@
         public int? MinMinutes { get; set; }
 
         public int? MaxMinutes { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }
