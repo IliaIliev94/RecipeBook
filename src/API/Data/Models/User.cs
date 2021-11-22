@@ -1,4 +1,7 @@
-﻿namespace API.Data.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace API.Data.Models
 {
     public class User
     {

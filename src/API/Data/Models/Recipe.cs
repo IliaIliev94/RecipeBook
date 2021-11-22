@@ -1,4 +1,6 @@
-﻿namespace API.Data.Models
+﻿using System;
+
+namespace API.Data.Models
 {
     public class Recipe
     {

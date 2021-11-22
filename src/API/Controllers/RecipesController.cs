@@ -2,7 +2,8 @@
 using API.Data.Models;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -11,6 +12,7 @@ namespace API.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly RecipeBookContext context;
+
         public RecipesController(RecipeBookContext context)
         {
             this.context = context;
@@ -22,7 +24,9 @@ namespace API.Controllers
             return context.Recipes
                 .Select(recipe => new RecipeCatalogViewModel
                 {
+                    Id = recipe.Id,
                     Title = recipe.Title,
+                    ImageURI = recipe.ImageURI,
                     Description = recipe.Description.Substring(0, 100),
                     MinMinutes = recipe.MinMinutes,
                     MaxMinutes = recipe.MaxMinutes,

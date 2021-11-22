@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using API;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace API
 {
