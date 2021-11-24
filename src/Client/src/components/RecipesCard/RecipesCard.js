@@ -1,16 +1,20 @@
-function RecipesCard(props) {
+import "./RecipesCard.css";
+
+function RecipesCard({ recipe }) {
 	return (
-		<div class="col-md-4 mx-1">
+		<div class="col-lg-4 m-1">
 			<div class="card h-100">
 				<img
-					src={props.image}
-					class="card-img-top h-100"
+					src={recipe.imageURI}
+					class="card-img-top"
 					alt="Recipe Image"
 				/>
-				<div class="card-body">
-					<h5 class="card-title">{props.title}</h5>
-					<p class="card-text">{props.children}</p>
-					<button class="btn btn-primary">Learn more</button>
+				<div class="card-body d-flex flex-column">
+					<h5 class="card-title">{recipe.title}</h5>
+					<p class="card-text">{recipe.description}</p>
+					<button class="btn btn-primary card-button">
+						Learn more
+					</button>
 				</div>
 			</div>
 		</div>
