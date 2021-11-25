@@ -24,12 +24,12 @@ function Navbar() {
 					id="navbarSupportedContent"
 				>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-						<NavItem>Recipes</NavItem>
-						<NavItem>Users</NavItem>
+						<NavItem link="/">Recipes</NavItem>
+						<NavItem link="/users">Users</NavItem>
 					</ul>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
-						<NavItem>Login</NavItem>
-						<NavItem>Register</NavItem>
+						<NavItem link="/login">Login</NavItem>
+						<NavItem link="/register">Register</NavItem>
 					</ul>
 				</div>
 			</div>

@@ -1,0 +1,13 @@
+footer {
+	position: absolute;
+	min-height: 40px;
+	bottom: 0%;
+	background: linear-gradient(
+		90deg,
+		rgba(5, 13, 75, 1) 50%,
+		rgba(2, 2, 47, 1) 100%
+	);
+	color: white;
+	width: 100%;
+	padding: 15px;
+}

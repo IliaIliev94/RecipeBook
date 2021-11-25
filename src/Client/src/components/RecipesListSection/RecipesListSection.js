@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import FeatureImage from "../FeatureImage/FeatureImage";
 import RecipesCatalog from "../RecipesCatalog/RecipesCatalog";
 
-function Main() {
+function RecipesListSection() {
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const onClickSearch = (e, searchParams) => {
@@ -11,11 +11,11 @@ function Main() {
 	};
 
 	return (
-		<main>
+		<>
 			<FeatureImage onClickSearch={onClickSearch} />
 			<RecipesCatalog searchParams={searchQuery} />
-		</main>
+		</>
 	);
 }
 
-export default Main;
+export default RecipesListSection;

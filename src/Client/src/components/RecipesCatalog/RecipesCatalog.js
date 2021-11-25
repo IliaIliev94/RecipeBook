@@ -6,8 +6,9 @@ function RecipesCatalog({ searchParams }) {
 	const baseUrl = "https://localhost:7274/api/Recipes";
 	const [recipes, setRecipes] = useState([]);
 
-	useEffect(() => {
-		getRecipes(baseUrl).then((res) => setRecipes(res));
+	useEffect(async () => {
+		let result = await getRecipes(baseUrl);
+		setRecipes(result);
 	}, []);
 
 	const recipesToDisplay =
@@ -26,11 +27,17 @@ function RecipesCatalog({ searchParams }) {
 	return (
 		<>
 			<h2 className="mt-4">Recipes</h2>
-			<div className="container">
+			<div className="container my-5">
 				<div className="row d-flex align-items-stretch">
-					{recipesToDisplay.map((recipe) => (
-						<RecipesCard key={recipe.id} recipe={recipe} />
-					))}
+					{recipesToDisplay.length > 0 ? (
+						recipesToDisplay.map((recipe) => (
+							<RecipesCard key={recipe.id} recipe={recipe} />
+						))
+					) : (
+						<h2 className="mx-auto">
+							No recipes yet! You can add some!
+						</h2>
+					)}
 				</div>
 			</div>
 		</>

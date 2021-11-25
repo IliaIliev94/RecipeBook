@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 function NavItem(props) {
 	return (
 		<li className="nav-item">
-			<a className="nav-link" aria-current="page" href="#">
+			<Link to={props.link} className="nav-link" aria-current="page">
 				{props.children}
-			</a>
+			</Link>
 		</li>
 	);
 }
