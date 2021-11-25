@@ -1,4 +1,5 @@
 import "./RecipesCard.css";
+import { Link } from "react-router-dom";
 
 function RecipesCard({ recipe }) {
 	return (
@@ -12,9 +13,12 @@ function RecipesCard({ recipe }) {
 				<div class="card-body d-flex flex-column">
 					<h5 class="card-title">{recipe.title}</h5>
 					<p class="card-text">{recipe.description}</p>
-					<button class="btn btn-primary card-button">
+					<Link
+						to={"/games/" + recipe.id}
+						class="btn btn-primary card-button"
+					>
 						Learn more
-					</button>
+					</Link>
 				</div>
 			</div>
 		</div>

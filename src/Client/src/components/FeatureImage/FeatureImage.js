@@ -1,15 +1,15 @@
 import "./FeatureImage.css";
 import SearchBar from "../SearchBar/SearchBar";
 
-function FeatureImage({ onClickSearch }) {
+function FeatureImage({ onClickSearch, children, background }) {
 	return (
-		<div className="feature-image">
-			<SearchBar
-				onClickSearch={onClickSearch}
-				placeholder="Search for meal"
-			>
-				Search
-			</SearchBar>
+		<div
+			style={{
+				background: `url(${background})`,
+			}}
+			className="feature-image"
+		>
+			{children}
 		</div>
 	);
 }

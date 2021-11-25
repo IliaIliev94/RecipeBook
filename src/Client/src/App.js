@@ -15,6 +15,7 @@ function App() {
 					<Route path="/" element={<RecipesListSection />} />
 					<Route path="/register" element={<Register />}></Route>
 					<Route path="/login" element={<Login />}></Route>
+					<Route path="/recipes/:id"></Route>
 				</Routes>
 			</main>
 			<Footer />
