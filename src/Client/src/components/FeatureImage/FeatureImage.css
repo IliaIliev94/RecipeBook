@@ -1,5 +1,5 @@
 .feature-image {
-	background-position: center;
-	max-width: 100%;
+	background-size: cover !important;
+	position: relative;
 	height: 670px;
 }

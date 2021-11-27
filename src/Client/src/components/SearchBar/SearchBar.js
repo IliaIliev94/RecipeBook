@@ -9,7 +9,7 @@ function SearchBar(props) {
 				props.onClickSearch(e, document.getElementById("test").value)
 			}
 		>
-			<div class="feature-image-searchbar input-group mb-3 col-md-10 p-5">
+			<div className="feature-image-searchbar input-group mb-3 col-md-10 p-5">
 				<input
 					type="text"
 					className="form-control"

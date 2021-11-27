@@ -2,7 +2,7 @@ import "../Register/Register.css";
 
 function Login() {
 	return (
-		<form className="register-form mx-auto col-10 col-md-8 col-lg-5 form-group">
+		<form className="mx-auto col-10 col-md-8 col-lg-5 form-group">
 			<h2>Login</h2>
 			<div className="register-form-inputs">
 				<input

@@ -1,4 +1,4 @@
-.register-form {
+.form-group {
 	padding: 80px 0 40px 0;
 	margin-top: 100px;
 	margin-bottom: 100px;
@@ -7,7 +7,7 @@
 	border-radius: 20px;
 }
 
-.register-form h2 {
+.form-group h2 {
 	color: white;
 	background: #dc3545;
 	position: absolute;
@@ -18,11 +18,11 @@
 	border-top-right-radius: 20px;
 }
 
-.register-form input {
+.form-group input {
 	margin: 20px auto;
 }
 
-.register-form input,
+.form-group input,
 register-form button {
 	margin-top: 20px;
 }

@@ -1,11 +1,10 @@
 import "./FeatureImage.css";
-import SearchBar from "../SearchBar/SearchBar";
 
-function FeatureImage({ onClickSearch, children, background }) {
+function FeatureImage({ children, background }) {
 	return (
 		<div
 			style={{
-				background: `url(${background})`,
+				background: `url("${background}") no-repeat center center fixed`,
 			}}
 			className="feature-image"
 		>

@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { Link } from "react-router-dom";
 import FeatureImage from "../FeatureImage/FeatureImage";
 import RecipesCatalog from "../RecipesCatalog/RecipesCatalog";
 import SearchBar from "../SearchBar/SearchBar";
@@ -22,6 +23,23 @@ function RecipesListSection() {
 					Search
 				</SearchBar>
 			</FeatureImage>
+			<div class="jumbotron">
+				<h1 class="display-4">Recipe catalog.</h1>
+				<p class="lead">
+					You can find a selection of recipes added by other users
+					here.
+				</p>
+				<p>You can also add your own recipe.</p>
+				<p class="lead">
+					<Link
+						to="/recipes/create"
+						class="btn btn-primary btn-lg"
+						role="button"
+					>
+						Add recipe
+					</Link>
+				</p>
+			</div>
 			<RecipesCatalog searchParams={searchQuery} />
 		</>
 	);
