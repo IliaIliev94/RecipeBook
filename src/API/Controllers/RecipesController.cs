@@ -60,7 +60,7 @@ namespace API.Controllers
             return result;
         }
 
-        [HttpPost("create")]
+        [HttpPost()]
         public IActionResult CreateRecipe([FromBody] RecipeInputModel recipe)
         {
             var newRecipe = new Recipe
@@ -70,7 +70,7 @@ namespace API.Controllers
                 Description = recipe.Description,
                 MinMinutes = recipe.MinMinutes,
                 MaxMinutes = recipe.MaxMinutes,
-                UserId = recipe.UserId,
+                UserId = new Guid("26F9AC4A-72DC-4AB1-8AA8-65E440D8B582"),
             };
 
             context.Recipes.Add(newRecipe);

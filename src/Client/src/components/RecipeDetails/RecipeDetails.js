@@ -1,5 +1,5 @@
 import FeatureImage from "../FeatureImage/FeatureImage";
-import getRecipes from "../../services/recipesService";
+import { getRecipes } from "../../services/recipesService";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./RecipeDetails.css";
@@ -22,8 +22,10 @@ function RecipeDetails() {
 					</p>
 				</div>
 			</FeatureImage>
-			<h2 className="display-3 my-5">{recipe.title}</h2>
-			<p className="display-4 my-5">{recipe.description}</p>
+			<article class="container text-center">
+				<h2 className="display-3 my-5">{recipe.title}</h2>
+				<p className="my-5">{recipe.description}</p>
+			</article>
 		</>
 	);
 }

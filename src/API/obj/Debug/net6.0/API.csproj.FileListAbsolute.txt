@@ -118,3 +118,4 @@ D:\SoftUni-Work\React\RecipeBook Project\src\API\obj\Debug\net6.0\API.dll
 D:\SoftUni-Work\React\RecipeBook Project\src\API\obj\Debug\net6.0\ref\API.dll
 D:\SoftUni-Work\React\RecipeBook Project\src\API\obj\Debug\net6.0\API.pdb
 D:\SoftUni-Work\React\RecipeBook Project\src\API\obj\Debug\net6.0\API.genruntimeconfig.cache
+D:\SoftUni-Work\React\RecipeBook Project\src\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

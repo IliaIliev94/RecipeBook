@@ -1,13 +1,15 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
     public class RecipeInputModel
     {
-        public Guid Id { get; init; }
-
+        [Required]
         public string Title { get; set; }
 
+        [Required]
+        [RegularExpression(@"https?:\/\/.*\.(?:png|jpg)")]
         public string ImageURI { get; set; }
 
         public string? Description { get; set; }

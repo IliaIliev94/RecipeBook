@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RecipesCard from "../RecipesCard/RecipesCard";
-import getRecipes from "../../services/recipesService";
+import { getRecipes } from "../../services/recipesService";
 
 function RecipesCatalog({ searchParams }) {
 	const baseUrl = "https://localhost:7274/api/Recipes";

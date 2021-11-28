@@ -1,12 +1,27 @@
 import "../Register/Register.css";
 import { useNavigate } from "react-router-dom";
+import { createRecipe } from "../../services/recipesService";
 
 function CreateRecipe() {
 	let navigate = useNavigate();
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		navigate("/");
+		const formData = new FormData(e.currentTarget);
+		const title = formData.get("title");
+		const imageURI = formData.get("imageURI");
+		const description = formData.get("description");
+		const minMinutes = formData.get("minMinutes");
+		const maxMinutes = formData.get("maxMinutes");
+		let result = await createRecipe(
+			title,
+			imageURI,
+			description,
+			minMinutes,
+			maxMinutes
+		);
+		console.log(result);
+		//navigate("/");
 	}
 	return (
 		<form
