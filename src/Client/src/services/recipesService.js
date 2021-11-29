@@ -6,6 +6,12 @@ export async function getRecipes(url) {
 	return result;
 }
 
+export async function getOne(id) {
+	const response = await fetch(`${baseUrl}/${id}`);
+	const result = await response.json();
+	return result;
+}
+
 export async function createRecipe(
 	title,
 	imageURI,

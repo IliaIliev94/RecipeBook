@@ -10,11 +10,17 @@ namespace API.Data.ModelConfigurations
         {
             builder
                 .Property(x => x.Username)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.HasIndex(x => x.Username)
+                .IsUnique();
+
+            builder.HasIndex(x => x.Email)
+                .IsUnique();
 
             builder
-                .Property(x => x.Password)
-                .HasMaxLength(50);
+                .Property(x => x.Password);
 
             builder
                 .HasMany(x => x.Recipes)

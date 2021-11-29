@@ -1,14 +1,13 @@
 import FeatureImage from "../FeatureImage/FeatureImage";
-import { getRecipes } from "../../services/recipesService";
+import { getOne } from "../../services/recipesService";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./RecipeDetails.css";
 function RecipeDetails() {
-	const baseUrl = "https://localhost:7274/api/Recipes";
 	const [recipe, setRecipe] = useState({});
 	const recipeId = useParams().id;
 	useEffect(async () => {
-		let result = await getRecipes(`${baseUrl}/${recipeId}`);
+		let result = await getOne(recipeId);
 		setRecipe(result);
 	}, []);
 	return (

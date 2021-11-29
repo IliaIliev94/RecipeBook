@@ -4,6 +4,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -47,7 +49,23 @@ namespace API
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1)
                 };
-            });
+                x.Events = new JwtBearerEvents();
+                x.Events.OnMessageReceived = context => {
+
+                    if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+                    {
+                        context.Token = context.Request.Cookies["X-Access-Token"];
+                    }
+
+                    return Task.CompletedTask;
+                };
+            })
+             .AddCookie(options =>
+             {
+                 options.Cookie.SameSite = SameSiteMode.Strict;
+                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                 options.Cookie.IsEssential = true;
+             });
 
             // Add services to the container.
 
@@ -63,7 +81,8 @@ namespace API
                                   {
                                       builder.WithOrigins("http://localhost:3000")
                                                                 .AllowAnyHeader()
-                                                                .AllowAnyMethod();
+                                                                .AllowAnyMethod()
+                                                                .AllowCredentials();
                                   });
             });
 

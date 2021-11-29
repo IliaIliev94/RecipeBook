@@ -7,16 +7,37 @@ import Login from "./components/Login/Login";
 import RecipeDetails from "./components/RecipeDetails/RecipeDetails";
 import CreateRecipe from "./components/CreateRecipe/CreateRecipe";
 import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { isAuthenticated } from "./services/authService";
 
 function App() {
+	const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
+	useEffect(async () => {
+		const result = await isAuthenticated();
+		setUserIsAuthenticated(result);
+	}, []);
+
+	const authHandler = async () => {
+		const result = await isAuthenticated();
+		setUserIsAuthenticated(result);
+	};
 	return (
 		<div className="App">
-			<Header />
+			<Header
+				isAuthenticated={userIsAuthenticated}
+				authHandler={authHandler}
+			/>
 			<main>
 				<Routes>
 					<Route path="/" element={<RecipesListSection />} />
-					<Route path="/register" element={<Register />}></Route>
-					<Route path="/login" element={<Login />}></Route>
+					<Route
+						path="/register"
+						element={<Register authHandler={authHandler} />}
+					></Route>
+					<Route
+						path="/login"
+						element={<Login authHandler={authHandler} />}
+					></Route>
 					<Route
 						path="/recipes/:id"
 						element={<RecipeDetails />}

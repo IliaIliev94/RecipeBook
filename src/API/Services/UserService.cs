@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace API.Services
             this.context = context;
         }
 
+        public bool EmailIsTaken(string email)
+        {
+            return this.context.Users.Any(user => user.Email == email);
+        }
+
         public bool IsAnExistingUser(string userName)
         {
             return this.context.Users.Any(user => user.Username == userName);
@@ -22,7 +28,21 @@ namespace API.Services
 
         public bool IsValidUserCredentials(string userName, string password)
         {
-            return this.context.Users.Any(user => user.Username == userName && user.Password == password);
+            var hashedPassword = PasswordHasher.ComputeSha256Hash(password);
+            return this.context.Users.Any(user => user.Username == userName && hashedPassword == user.Password);
+        }
+
+        public void CreateUser(string username, string email, string password)
+        {
+            var user = new User
+            {
+                Username = username,
+                Email = email,
+                Password = PasswordHasher.ComputeSha256Hash(password)
+            };
+
+            context.Users.Add(user);
+            context.SaveChanges();
         }
     }
 }

@@ -2,6 +2,7 @@
 using API.Infrastructure;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,10 +27,35 @@ namespace API.Controllers
             _jwtAuthManager = jwtAuthManager;
         }
 
-        [HttpPost("Register")]
-        public ActionResult Register()
+        [HttpPost("register")]
+        public ActionResult Register([FromBody] RegisterRequest request)
         {
-            Console.WriteLine();
+            if(_userService.IsAnExistingUser(request.Username))
+            {
+                return BadRequest("Username is taken!");
+            }
+            else if(_userService.EmailIsTaken(request.Email))
+            {
+                return BadRequest("Email is taken!");
+            }
+            else if(request.Password != request.ConfirmPassword)
+            {
+                return BadRequest("Password and password confirmation don't match");
+            }
+
+            _userService.CreateUser(request.Username, request.Email, request.Password);
+
+            var claims = new[]
+          {
+                new System.Security.Claims.Claim(ClaimTypes.Name, request.Username),
+            };
+
+            var jwtResult = _jwtAuthManager.GenerateTokens(request.Username, claims, DateTime.Now);
+
+            Response.Cookies.Append("X-Access-Token", jwtResult.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+
             return Ok();
         }
 
@@ -47,21 +73,28 @@ namespace API.Controllers
             };
 
             var jwtResult = _jwtAuthManager.GenerateTokens(request.Username, claims, DateTime.Now);
-            return Ok(new LoginResponse
-            {
-                UserName = request.Username,
-                AccessToken = jwtResult.AccessToken,
-                RefreshToken = jwtResult.RefreshToken.TokenString
-            });
+
+            Response.Cookies.Append("X-Access-Token", jwtResult.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+
+            return Ok();
         }
 
         [Authorize]
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
-            var user = User.Identity?.Name;
-            Console.WriteLine(user);
-            return Ok("Test");
+            Response.Cookies.Delete("X-Access-Token");
+            Response.Cookies.Delete("X-Username");
+            Response.Cookies.Delete("X-Refresh-Token");
+            return Ok();
+        }
+
+        [HttpGet("isAuthenticated")]
+        public IActionResult IsAuthenticated()
+        {
+            return Ok(User.Identity?.IsAuthenticated);
         }
     }
 }
