@@ -6,6 +6,8 @@ import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import RecipeDetails from "./components/RecipeDetails/RecipeDetails";
 import CreateRecipe from "./components/CreateRecipe/CreateRecipe";
+import EditRecipe from "./components/EditRecipe/EditRecipe";
+import Error from "./components/Error/Error";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated } from "./services/authService";
@@ -15,6 +17,7 @@ function App() {
 	useEffect(async () => {
 		const result = await isAuthenticated();
 		setUserIsAuthenticated(result);
+		console.log(userIsAuthenticated);
 	}, []);
 
 	const authHandler = async () => {
@@ -44,7 +47,21 @@ function App() {
 					></Route>
 					<Route
 						path="/recipes/create"
-						element={<CreateRecipe />}
+						element={
+							userIsAuthenticated ? (
+								<CreateRecipe />
+							) : (
+								<Error title="401">Unauthorized!</Error>
+							)
+						}
+					></Route>
+					<Route
+						path="/recipes/edit/:id"
+						element={<EditRecipe />}
+					></Route>
+					<Route
+						path="*"
+						element={<Error title="404">Not Found!</Error>}
 					></Route>
 				</Routes>
 			</main>

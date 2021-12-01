@@ -12,12 +12,11 @@ function Login({ authHandler }) {
 		const result = await login(username, password);
 		if (result.status !== 200) {
 			alert("Wrong input data! Try again!");
-		} else {
-			await authHandler();
-			navigate("/");
+			return;
 		}
 
-		console.log(result);
+		await authHandler();
+		navigate("/");
 	};
 	return (
 		<form

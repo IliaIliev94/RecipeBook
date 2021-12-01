@@ -28,7 +28,38 @@ export async function createRecipe(
 	};
 	const response = await fetch(baseUrl, {
 		method: "POST",
+		credentials: "include",
 		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	});
+
+	const result = await response.json();
+
+	return result;
+}
+
+export async function editRecipe(
+	id,
+	title,
+	imageURI,
+	description,
+	minMinutes,
+	maxMinutes
+) {
+	const data = {
+		title: title,
+		imageURI: imageURI,
+		description: description,
+		minMinutes: minMinutes,
+		maxMinutes: maxMinutes,
+	};
+
+	const response = await fetch(`${baseUrl}/recipes/edit/${id}`, {
+		method: "PUT",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
 		body: JSON.stringify(data),
 	});
 

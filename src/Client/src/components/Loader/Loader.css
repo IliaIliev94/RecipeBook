@@ -1,0 +1,39 @@
+.loading-container {
+	position: relative;
+	height: 400px;
+	width: 100%;
+}
+
+.loading-section {
+	position: absolute;
+	width: 100%;
+	margin: auto;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.spinner {
+	animation: Rotate 2.4s both infinite linear;
+}
+.path {
+	animation: DrawLine 1.6s both infinite alternate linear;
+	fill: none;
+	stroke: #000;
+	stroke-width: 50;
+}
+@keyframes Rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@keyframes DrawLine {
+	0% {
+		stroke-dasharray: 0 126;
+	}
+	100% {
+		stroke-dasharray: 126 126;
+	}
+}

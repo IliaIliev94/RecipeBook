@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Data.Models;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -60,9 +61,11 @@ namespace API.Controllers
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
+        [Authorize]
         public IActionResult CreateRecipe([FromBody] RecipeInputModel recipe)
         {
+
             var newRecipe = new Recipe
             {
                 Title = recipe.Title,
@@ -70,7 +73,7 @@ namespace API.Controllers
                 Description = recipe.Description,
                 MinMinutes = recipe.MinMinutes,
                 MaxMinutes = recipe.MaxMinutes,
-                UserId = new Guid("26F9AC4A-72DC-4AB1-8AA8-65E440D8B582"),
+                UserId = this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id,
             };
 
             context.Recipes.Add(newRecipe);
@@ -79,6 +82,25 @@ namespace API.Controllers
             var result = context.Recipes.FirstOrDefault(recipe => recipe.Id == newRecipe.Id);
 
             return Ok(result);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult EditRecipe([FromBody] RecipeEditInputModel recipe)
+        {
+            var recipeToEdit = this.context.Recipes.FirstOrDefault(x => x.Id == recipe.Id);
+            if(recipeToEdit == null)
+            {
+                return NotFound();
+            }
+
+            recipeToEdit.Title = recipe.Title;
+            recipeToEdit.Description = recipe.Description;
+            recipeToEdit.ImageURI = recipe.ImageURI;
+            recipeToEdit.MinMinutes = recipe.MinMinutes;
+            recipeToEdit.MaxMinutes = recipe.MaxMinutes;
+
+            return Ok();
         }
     }
 }

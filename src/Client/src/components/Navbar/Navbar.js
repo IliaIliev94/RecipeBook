@@ -54,7 +54,14 @@ function Navbar({ isAuthenticated, authHandler }) {
 				>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 						<NavItem link="/">Recipes</NavItem>
-						<NavItem link="/recipes/create">Create recipe</NavItem>
+						{isAuthenticated ? (
+							<NavItem link="/recipes/create">
+								Create recipe
+							</NavItem>
+						) : (
+							""
+						)}
+
 						<NavItem link="/users">Users</NavItem>
 					</ul>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
