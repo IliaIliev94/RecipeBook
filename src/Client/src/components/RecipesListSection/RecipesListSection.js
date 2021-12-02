@@ -8,8 +8,7 @@ import background from "../../assets/cereal-g1778f911a_1920.jpg";
 function RecipesListSection() {
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const onClickSearch = (e, searchParams) => {
-		e.preventDefault();
+	const onClickSearch = (searchParams) => {
 		setSearchQuery(searchParams);
 	};
 
@@ -23,17 +22,17 @@ function RecipesListSection() {
 					Search
 				</SearchBar>
 			</FeatureImage>
-			<div class="jumbotron">
-				<h1 class="display-4">Recipe catalog.</h1>
-				<p class="lead">
+			<div className="jumbotron">
+				<h1 className="display-4">Recipe catalog.</h1>
+				<p className="lead">
 					You can find a selection of recipes added by other users
 					here.
 				</p>
 				<p>You can also add your own recipe.</p>
-				<p class="lead">
+				<p className="lead">
 					<Link
 						to="/recipes/create"
-						class="btn btn-primary btn-lg"
+						className="btn btn-primary btn-lg"
 						role="button"
 					>
 						Add recipe

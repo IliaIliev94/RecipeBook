@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Infrastructure;
 using API.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,8 +64,8 @@ namespace API
              .AddCookie(options =>
              {
                  options.Cookie.SameSite = SameSiteMode.Strict;
-                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                  options.Cookie.IsEssential = true;
+                 options.CookieManager = new ChunkingCookieManager();
              });
 
             // Add services to the container.

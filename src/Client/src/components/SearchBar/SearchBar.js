@@ -5,9 +5,13 @@ function SearchBar(props) {
 		<form
 			action="#"
 			className="h-100"
-			onSubmit={(e) =>
-				props.onClickSearch(e, document.getElementById("test").value)
-			}
+			onSubmit={(e) => {
+				e.preventDefault();
+				const searchInput = new FormData(e.currentTarget).get(
+					"searchInput"
+				);
+				props.onClickSearch(searchInput);
+			}}
 		>
 			<div className="feature-image-searchbar input-group mb-3 col-md-10 p-5">
 				<input
@@ -16,7 +20,7 @@ function SearchBar(props) {
 					placeholder={props.placeholder}
 					aria-label="Recipient's username"
 					aria-describedby="button-addon2"
-					id="test"
+					name="searchInput"
 				/>
 				<button
 					className="btn btn-primary"

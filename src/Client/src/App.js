@@ -57,7 +57,13 @@ function App() {
 					></Route>
 					<Route
 						path="/recipes/edit/:id"
-						element={<EditRecipe />}
+						element={
+							userIsAuthenticated ? (
+								<EditRecipe />
+							) : (
+								<Error title="401">Unauthorized</Error>
+							)
+						}
 					></Route>
 					<Route
 						path="*"

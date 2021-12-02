@@ -1,7 +1,9 @@
 import { register } from "../../services/authService";
+import { useNavigate } from "react-router";
 import "./Register.css";
 
 function Register({ authHandler }) {
+	const navigate = useNavigate();
 	const registerUser = async (event) => {
 		event.preventDefault();
 		let formData = new FormData(event.currentTarget);
@@ -20,6 +22,7 @@ function Register({ authHandler }) {
 			confirmPassword
 		);
 		await authHandler();
+		navigate("/");
 		console.log(result);
 	};
 	return (

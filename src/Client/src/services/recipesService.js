@@ -33,9 +33,7 @@ export async function createRecipe(
 		body: JSON.stringify(data),
 	});
 
-	const result = await response.json();
-
-	return result;
+	return response;
 }
 
 export async function editRecipe(
@@ -54,7 +52,7 @@ export async function editRecipe(
 		maxMinutes: maxMinutes,
 	};
 
-	const response = await fetch(`${baseUrl}/recipes/edit/${id}`, {
+	const response = await fetch(`${baseUrl}/edit/${id}`, {
 		method: "PUT",
 		credentials: "include",
 		headers: {
@@ -63,7 +61,14 @@ export async function editRecipe(
 		body: JSON.stringify(data),
 	});
 
-	const result = await response.json();
+	return response;
+}
 
-	return result;
+export async function deleteRecipe(id) {
+	const response = await fetch(`${baseUrl}/delete/${id}`, {
+		method: "DELETE",
+		credentials: "include",
+	});
+
+	return response;
 }

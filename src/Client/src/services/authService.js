@@ -14,8 +14,7 @@ export async function register(username, email, password, confirmPassword) {
 		}),
 	});
 
-	const result = await response.json();
-	return result;
+	return response;
 }
 
 export async function login(username, password) {
@@ -31,9 +30,7 @@ export async function login(username, password) {
 		}),
 	});
 
-	const result = await response;
-
-	return result;
+	return response;
 }
 
 export async function logout() {

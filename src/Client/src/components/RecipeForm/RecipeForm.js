@@ -17,35 +17,35 @@ function RecipeForm({
 				className="form-control col-10 mx-auto"
 				placeholder="Recipe title"
 				name="title"
-				value={title}
+				defaultValue={title}
 			></input>
 			<input
 				type="text"
 				className="form-control col-10 mx-auto"
 				placeholder="Image URI"
 				name="imageURI"
-				value={imageURI}
+				defaultValue={imageURI}
 			></input>
 			<textarea
 				rows="5"
 				className="form-control col-10 d-block m-auto"
 				placeholder="Description"
 				name="description"
-				value={description}
+				defaultValue={description}
 			></textarea>
 			<input
 				type="number"
 				className="form-control col-10"
 				placeholder="Min minutes"
 				name="minMinutes"
-				value={minMinutes}
+				defaultValue={minMinutes}
 			></input>
 			<input
 				type="number"
 				className="form-control col-10"
 				placeholder="Max minutes"
 				name="maxMinutes"
-				value={maxMinutes}
+				defaultValue={maxMinutes}
 			></input>
 			<button
 				type="submit"

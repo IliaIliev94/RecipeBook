@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace API.Controllers
 {
@@ -74,9 +75,9 @@ namespace API.Controllers
 
             var jwtResult = _jwtAuthManager.GenerateTokens(request.Username, claims, DateTime.Now);
 
-            Response.Cookies.Append("X-Access-Token", jwtResult.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            Response.Cookies.Append("X-Access-Token", jwtResult.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure=true });
+            Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure=true });
+            Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure=true });
 
             return Ok();
         }
@@ -85,16 +86,16 @@ namespace API.Controllers
         [HttpGet("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("X-Access-Token");
-            Response.Cookies.Delete("X-Username");
-            Response.Cookies.Delete("X-Refresh-Token");
+            Response.Cookies.Append("X-Access-Token", "", new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.Now.AddDays(-1) });
+            Response.Cookies.Append("X-Username", "", new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.Now.AddDays(-1) });
+            Response.Cookies.Append("X-Refresh-Token", "", new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.Now.AddDays(-1) });
             return Ok();
         }
 
         [HttpGet("isAuthenticated")]
         public IActionResult IsAuthenticated()
         {
-            return Ok(User.Identity?.IsAuthenticated);
+            return Ok(User.Identity.IsAuthenticated);
         }
     }
 }

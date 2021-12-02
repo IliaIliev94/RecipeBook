@@ -81,14 +81,14 @@ namespace API.Controllers
 
             var result = context.Recipes.FirstOrDefault(recipe => recipe.Id == newRecipe.Id);
 
-            return Ok(result);
+            return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("edit/{id}")]
         [Authorize]
-        public IActionResult EditRecipe([FromBody] RecipeEditInputModel recipe)
+        public IActionResult EditRecipe(Guid id, [FromBody] RecipeEditInputModel recipe)
         {
-            var recipeToEdit = this.context.Recipes.FirstOrDefault(x => x.Id == recipe.Id);
+            var recipeToEdit = this.context.Recipes.FirstOrDefault(x => x.Id == id);
             if(recipeToEdit == null)
             {
                 return NotFound();
@@ -99,6 +99,30 @@ namespace API.Controllers
             recipeToEdit.ImageURI = recipe.ImageURI;
             recipeToEdit.MinMinutes = recipe.MinMinutes;
             recipeToEdit.MaxMinutes = recipe.MaxMinutes;
+
+            this.context.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete("delete/{id}")]
+        [Authorize]
+        public IActionResult DeleteRecipe(Guid id)
+        {
+            var recipe = this.context.Recipes.FirstOrDefault(x => x.Id == id);
+            if(recipe == null)
+            {
+                return NotFound();
+            }
+
+            var userId = this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id;
+            if(userId != recipe.UserId)
+            {
+                return Unauthorized();
+            }
+
+            this.context.Recipes.Remove(recipe);
+            this.context.SaveChanges();
 
             return Ok();
         }
