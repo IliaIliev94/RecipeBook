@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import "./Error.css";
 
 function Error({ title, children }) {
 	return (
-		<div class="container">
+		<div class="container error-container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="error-template">

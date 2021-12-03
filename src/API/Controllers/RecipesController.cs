@@ -56,6 +56,7 @@ namespace API.Controllers
                 ImageURI = recipe.ImageURI,
                 MinMinutes = recipe.MinMinutes,
                 MaxMinutes = recipe.MaxMinutes,
+                IsOwner = User.Identity.IsAuthenticated ? recipe.UserId == this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : false,
             };
 
             return result;

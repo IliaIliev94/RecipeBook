@@ -7,7 +7,9 @@ export async function getRecipes(url) {
 }
 
 export async function getOne(id) {
-	const response = await fetch(`${baseUrl}/${id}`);
+	const response = await fetch(`${baseUrl}/${id}`, {
+		credentials: "include",
+	});
 	const result = await response.json();
 	return result;
 }

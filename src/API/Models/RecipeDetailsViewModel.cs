@@ -11,5 +11,7 @@
         public int? MinMinutes { get; set; }
 
         public int? MaxMinutes { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

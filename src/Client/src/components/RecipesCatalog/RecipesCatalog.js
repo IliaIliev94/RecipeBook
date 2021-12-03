@@ -7,6 +7,7 @@ import "../Loader/Loader.css";
 
 function RecipesCatalog({ searchParams }) {
 	const baseUrl = "https://localhost:7274/api/Recipes";
+	const postsPerPage = 6;
 	const [recipes, setRecipes] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -45,8 +46,8 @@ function RecipesCatalog({ searchParams }) {
 					<>
 						{recipesToDisplay
 							.slice(
-								(currentPage - 1) * 6,
-								(currentPage - 1) * 6 + 6
+								(currentPage - 1) * postsPerPage,
+								(currentPage - 1) * postsPerPage + postsPerPage
 							)
 							.map((recipe) => (
 								<RecipesCard key={recipe.id} recipe={recipe} />
@@ -75,7 +76,7 @@ function RecipesCatalog({ searchParams }) {
 				{recipesToDisplay.length > 0 ? (
 					<Pagination
 						totalPosts={recipesToDisplay.length}
-						postsPerPage={6}
+						postsPerPage={postsPerPage}
 						currentPage={currentPage}
 						onClickHandler={buttonClickHandler}
 					/>

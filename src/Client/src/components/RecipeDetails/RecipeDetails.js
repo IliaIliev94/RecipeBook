@@ -22,8 +22,9 @@ function RecipeDetails() {
 
 	async function deleteHandler() {
 		const result = await deleteRecipe(recipeId);
+		console.log("Delete result: ");
 		console.log(result);
-		if (result.status !== 200) {
+		if (result === null) {
 			alert("An error occupied pelase try again later!");
 			return;
 		}
@@ -48,20 +49,28 @@ function RecipeDetails() {
 						</FeatureImage>
 						<article class="container text-center">
 							<h2 className="display-3 my-5">{recipe.title}</h2>
-							<p className="my-5">{recipe.description}</p>
+							<p className="my-5 text-justify">
+								{recipe.description}
+							</p>
 						</article>
-						<Link
-							className="btn btn-primary mr-4"
-							to={"/recipes/edit/" + recipeId}
-						>
-							Edit
-						</Link>
-						<button
-							onClick={deleteHandler}
-							className="btn btn-danger"
-						>
-							Delete
-						</button>
+						{recipe.isOwner ? (
+							<>
+								<Link
+									className="btn btn-primary mr-4"
+									to={"/recipes/edit/" + recipeId}
+								>
+									Edit
+								</Link>
+								<button
+									onClick={deleteHandler}
+									className="btn btn-danger"
+								>
+									Delete
+								</button>
+							</>
+						) : (
+							""
+						)}
 					</>
 				) : (
 					<Loader></Loader>
