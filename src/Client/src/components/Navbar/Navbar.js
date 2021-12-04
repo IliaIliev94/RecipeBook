@@ -53,7 +53,7 @@ function Navbar({ isAuthenticated, authHandler }) {
 					id="navbarSupportedContent"
 				>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-						<NavItem link="/">Recipes</NavItem>
+						<NavItem link="/recipes">Recipes</NavItem>
 						{isAuthenticated ? (
 							<NavItem link="/recipes/create">
 								Create recipe

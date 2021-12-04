@@ -1,17 +1,10 @@
 const baseUrl = "https://localhost:7274/api/Users";
 
-export async function register(username, email, password, confirmPassword) {
+export async function register(formData) {
 	const response = await fetch(`${baseUrl}/register`, {
+		credentials: "include",
 		method: "POST",
-		headers: {
-			"Content-type": "application/json",
-		},
-		body: JSON.stringify({
-			username: username,
-			email: email,
-			password: password,
-			confirmPassword: confirmPassword,
-		}),
+		body: formData,
 	});
 
 	return response;

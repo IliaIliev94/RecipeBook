@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import RecipesCard from "../RecipesCard/RecipesCard";
 import { getRecipes } from "../../services/recipesService";
 import Loader from "../Loader/Loader";
@@ -6,19 +7,27 @@ import Pagination from "../Pagination/Pagination";
 import "../Loader/Loader.css";
 
 function RecipesCatalog({ searchParams }) {
-	const baseUrl = "https://localhost:7274/api/Recipes";
 	const postsPerPage = 6;
+	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(async () => {
-		let result = await getRecipes(baseUrl);
-		setRecipes(result);
-		if (result !== null) {
-			setIsLoaded(true);
+		try {
+			let result = await getRecipes();
+			setRecipes(result);
+			if (result !== null) {
+				setIsLoaded(true);
+			}
+		} catch {
+			navigate("/500");
 		}
 	}, []);
+
+	useEffect(async () => {
+		setCurrentPage(1);
+	}, [searchParams]);
 
 	function buttonClickHandler(page) {
 		console.log("Page: " + page);

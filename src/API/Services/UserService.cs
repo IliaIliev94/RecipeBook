@@ -32,13 +32,14 @@ namespace API.Services
             return this.context.Users.Any(user => user.Username == userName && hashedPassword == user.Password);
         }
 
-        public void CreateUser(string username, string email, string password)
+        public void CreateUser(string username, string email, string password, string imageName)
         {
             var user = new User
             {
                 Username = username,
                 Email = email,
-                Password = PasswordHasher.ComputeSha256Hash(password)
+                Password = PasswordHasher.ComputeSha256Hash(password),
+                ImageName = imageName,
             };
 
             context.Users.Add(user);

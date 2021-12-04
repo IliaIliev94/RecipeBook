@@ -49,6 +49,8 @@ namespace API.Controllers
                 return NotFound();
             }
 
+
+
             var result = new RecipeDetailsViewModel
             {
                 Title = recipe.Title,
@@ -57,6 +59,7 @@ namespace API.Controllers
                 MinMinutes = recipe.MinMinutes,
                 MaxMinutes = recipe.MaxMinutes,
                 IsOwner = User.Identity.IsAuthenticated ? recipe.UserId == this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : false,
+                UserImage = this.context.Users.FirstOrDefault(user => user.Id == recipe.UserId).ImageName,
             };
 
             return result;

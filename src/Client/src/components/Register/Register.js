@@ -1,29 +1,50 @@
 import { register } from "../../services/authService";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import "./Register.css";
+import img from "../../assets/Avatars/default-avatar.png";
 
 function Register({ authHandler }) {
+	const [image, setImage] = useState({ imageSrc: img, imageFile: null });
 	const navigate = useNavigate();
-	const registerUser = async (event) => {
-		event.preventDefault();
-		let formData = new FormData(event.currentTarget);
-		let username = formData.get("username");
-		let email = formData.get("email");
-		let password = formData.get("password");
-		let confirmPassword = formData.get("confirmPassword");
+	const registerUser = async (e) => {
+		e.preventDefault();
+		console.log(e);
+		const formData = new FormData(e.currentTarget);
+		const { username, email, password, confirmPassword } =
+			Object.fromEntries(formData);
+
 		if (password !== confirmPassword) {
 			alert("Password and password confirmation must match");
 			return;
 		}
-		const result = await register(
-			username,
-			email,
-			password,
-			confirmPassword
-		);
+
+		const result = await register(formData);
+
+		if (result.status !== 200) {
+			alert("Wrong input data! Try again!");
+			return;
+		}
+
 		await authHandler();
 		navigate("/");
-		console.log(result);
+	};
+
+	const showPreview = (e) => {
+		console.log(e.target);
+		if (e.target.files && e.target.files[0]) {
+			let imageFile = e.target.files[0];
+			const reader = new FileReader();
+			reader.onload = (x) => {
+				setImage({ imageFile, imageSrc: x.target.result });
+			};
+			reader.readAsDataURL(imageFile);
+		} else {
+			setImage({
+				imageFile: null,
+				imageSrc: img,
+			});
+		}
 	};
 	return (
 		<form
@@ -32,33 +53,52 @@ function Register({ authHandler }) {
 		>
 			<h2>Register</h2>
 			<div className="register-form-inputs">
+				<label for="username">Username</label>
 				<input
 					className="form-control col-8 col-md-8"
 					type="name"
 					placeholder="Username"
 					name="username"
+					id="username"
 					required
 				/>
+				<label for="email">Email</label>
 				<input
 					className="form-control col-8 col-md-8"
 					type="email"
 					placeholder="Email"
 					name="email"
+					id="email"
 					required
 				/>
+				<label for="password">Password</label>
 				<input
 					className="form-control col-8 col-md-8"
 					type="password"
 					placeholder="Password"
 					name="password"
+					id="password"
 					required
 				/>
+				<label for="confirmPassword">Confirm password</label>
 				<input
 					className="form-control col-8 col-md-8"
 					type="password"
 					placeholder="Confirm Password"
 					name="confirmPassword"
+					id="confirmPassword"
 					required
+				/>
+				<img src={image.imageSrc} className="avatar" />
+				<label for="avatar">Avatar</label>
+
+				<input
+					className="form-control col-8 col-md-8"
+					type="file"
+					placeholder="Avatar"
+					name="avatar"
+					id="avatar"
+					onChange={showPreview}
 				/>
 			</div>
 

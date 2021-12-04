@@ -12,12 +12,15 @@ function RecipeDetails() {
 	const recipeId = useParams().id;
 	const navigate = useNavigate();
 	useEffect(async () => {
-		let result = await getOne(recipeId);
-		console.log(result);
-		if (result !== null) {
-			setIsLoaded(true);
+		try {
+			let result = await getOne(recipeId);
+			if (result !== null) {
+				setIsLoaded(true);
+			}
+			setRecipe(result);
+		} catch {
+			navigate("/500");
 		}
-		setRecipe(result);
 	}, []);
 
 	async function deleteHandler() {

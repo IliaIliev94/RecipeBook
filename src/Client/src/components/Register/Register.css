@@ -19,14 +19,17 @@
 }
 
 .form-group input {
-	margin: 20px auto;
-}
-
-.form-group input,
-register-form button {
-	margin-top: 20px;
+	margin: 0 auto 20px auto;
 }
 
 .register-form-inputs {
 	margin-top: 65px;
+}
+
+.avatar {
+	width: auto;
+	height: 100px;
+	display: block;
+	margin: 5px auto;
+	object-fit: cover;
 }

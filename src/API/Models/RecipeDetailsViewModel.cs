@@ -13,5 +13,7 @@
         public int? MaxMinutes { get; set; }
 
         public bool IsOwner { get; set; }
+
+        public string UserImage { get; set; }
     }
 }

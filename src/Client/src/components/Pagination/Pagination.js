@@ -5,6 +5,7 @@ function Pagination({ totalPosts, postsPerPage, currentPage, onClickHandler }) {
 	const [pagination, setPagination] = useState([]);
 	useEffect(() => {
 		console.log("Page: " + currentPage);
+		console.log("Total posts: " + totalPosts);
 		const totalPages = Math.ceil(totalPosts / postsPerPage);
 		let buttons = [];
 		for (

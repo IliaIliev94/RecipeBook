@@ -1,7 +1,7 @@
 const baseUrl = "https://localhost:7274/api/Recipes";
 
-export async function getRecipes(url) {
-	const response = await fetch(url);
+export async function getRecipes() {
+	const response = await fetch(baseUrl);
 	const result = await response.json();
 	return result;
 }
@@ -73,4 +73,14 @@ export async function deleteRecipe(id) {
 	});
 
 	return response;
+}
+
+export async function getUserRecipes() {
+	const response = await fetch(`${baseUrl}/user-recipes`, {
+		method: "GET",
+		credentials: "include",
+	});
+
+	const result = await response.json();
+	return result;
 }

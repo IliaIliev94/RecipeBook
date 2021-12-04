@@ -8,16 +8,20 @@ import RecipeDetails from "./components/RecipeDetails/RecipeDetails";
 import CreateRecipe from "./components/CreateRecipe/CreateRecipe";
 import EditRecipe from "./components/EditRecipe/EditRecipe";
 import Error from "./components/Error/Error";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated } from "./services/authService";
 
 function App() {
+	const navigate = useNavigate();
 	const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
 	useEffect(async () => {
-		const result = await isAuthenticated();
-		setUserIsAuthenticated(result);
-		console.log(userIsAuthenticated);
+		try {
+			const result = await isAuthenticated();
+			setUserIsAuthenticated(result);
+		} catch {
+			navigate("/500");
+		}
 	}, []);
 
 	const authHandler = async () => {
@@ -32,7 +36,7 @@ function App() {
 			/>
 			<main>
 				<Routes>
-					<Route path="/" element={<RecipesListSection />} />
+					<Route path="/recipes" element={<RecipesListSection />} />
 					<Route
 						path="/register"
 						element={<Register authHandler={authHandler} />}
@@ -63,6 +67,15 @@ function App() {
 							) : (
 								<Error title="401">Unauthorized</Error>
 							)
+						}
+					></Route>
+					<Route
+						path="/500"
+						element={
+							<Error title="500">
+								Either the server is down or there is an error
+								with the request!
+							</Error>
 						}
 					></Route>
 					<Route
