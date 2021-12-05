@@ -4,8 +4,6 @@ import "./Pagination.css";
 function Pagination({ totalPosts, postsPerPage, currentPage, onClickHandler }) {
 	const [pagination, setPagination] = useState([]);
 	useEffect(() => {
-		console.log("Page: " + currentPage);
-		console.log("Total posts: " + totalPosts);
 		const totalPages = Math.ceil(totalPosts / postsPerPage);
 		let buttons = [];
 		for (
@@ -13,24 +11,10 @@ function Pagination({ totalPosts, postsPerPage, currentPage, onClickHandler }) {
 			counter < 3 && i < currentPage;
 			counter++, i++
 		) {
-			buttons.push(
-				<button
-					onClick={() => onClickHandler(i)}
-					className="btn btn-primary"
-				>
-					{i}
-				</button>
-			);
+			buttons.push(createButton(i, i));
 		}
 
-		buttons.push(
-			<button
-				onClick={() => onClickHandler(currentPage)}
-				className="btn btn-primary active"
-			>
-				{currentPage}
-			</button>
-		);
+		buttons.push(createButton(currentPage, currentPage, "active"));
 
 		for (
 			let i = currentPage + 1, counter = 0;
@@ -38,37 +22,27 @@ function Pagination({ totalPosts, postsPerPage, currentPage, onClickHandler }) {
 			counter++, i++
 		) {
 			console.log("success");
-			buttons.push(
-				<button
-					onClick={() => onClickHandler(i)}
-					className="btn btn-primary"
-				>
-					{i}
-				</button>
-			);
+			buttons.push(createButton(i, i));
 		}
 
 		if (totalPages > 3) {
-			buttons.unshift(
-				<button
-					onClick={() => onClickHandler(1)}
-					className="btn btn-primary"
-				>
-					First
-				</button>
-			);
-			buttons.push(
-				<button
-					onClick={() => onClickHandler(totalPages)}
-					className="btn btn-primary"
-				>
-					Last
-				</button>
-			);
+			buttons.unshift(createButton(1, "First"));
+			buttons.push(createButton(totalPages, "Last"));
 		}
 
 		setPagination(buttons);
 	}, [currentPage]);
+
+	const createButton = (page, text, isActive = "") => {
+		return (
+			<button
+				onClick={() => onClickHandler(page)}
+				className={"btn btn-primary " + isActive}
+			>
+				{text}
+			</button>
+		);
+	};
 
 	return (
 		<section className="pagination-container mt-5"> {pagination} </section>

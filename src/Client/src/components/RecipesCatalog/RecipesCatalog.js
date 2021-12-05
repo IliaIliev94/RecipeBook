@@ -25,7 +25,7 @@ function RecipesCatalog({ searchParams }) {
 		}
 	}, []);
 
-	useEffect(async () => {
+	useEffect(() => {
 		setCurrentPage(1);
 	}, [searchParams]);
 
@@ -84,6 +84,7 @@ function RecipesCatalog({ searchParams }) {
 				</div>
 				{recipesToDisplay.length > 0 ? (
 					<Pagination
+						key={searchParams}
 						totalPosts={recipesToDisplay.length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}

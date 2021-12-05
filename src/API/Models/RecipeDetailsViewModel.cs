@@ -14,6 +14,8 @@
 
         public bool IsOwner { get; set; }
 
+        public string Username { get; set; }
+
         public string UserImage { get; set; }
     }
 }

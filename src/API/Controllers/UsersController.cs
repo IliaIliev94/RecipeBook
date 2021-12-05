@@ -24,7 +24,7 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly IJwtAuthManager _jwtAuthManager;
         private readonly IWebHostEnvironment _hostEnvironment;
-        public const string defaultAvatar = "../../assets/Avatars/default-avatar.png";
+        public const string defaultAvatar = "default-avatar.png";
         public UsersController(IUserService userService, IJwtAuthManager jwtAuthManager, IWebHostEnvironment hostEnvironment)
         {
             _userService = userService;
@@ -110,14 +110,14 @@ namespace API.Controllers
         {
             var imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine("D:\\SoftUni-Work\\React\\RecipeBook Project\\src\\Client\\src\\assets", "Avatars", imageName);
+            var imagePath = Path.Combine("../Client/public/images", "Avatars", imageName);
 
             using(var fileStream = new FileStream(imagePath, FileMode.Create))
             {
                 imageFile.CopyTo(fileStream);
             };
 
-            return imagePath;
+            return imagePath.Split('/').Last().Split("\\").Last();
         }
     }
 }

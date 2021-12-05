@@ -9,7 +9,6 @@ function Register({ authHandler }) {
 	const navigate = useNavigate();
 	const registerUser = async (e) => {
 		e.preventDefault();
-		console.log(e);
 		const formData = new FormData(e.currentTarget);
 		const { username, email, password, confirmPassword } =
 			Object.fromEntries(formData);
@@ -21,13 +20,20 @@ function Register({ authHandler }) {
 
 		const result = await register(formData);
 
+		console.log("Result");
+		console.log(result);
+
 		if (result.status !== 200) {
 			alert("Wrong input data! Try again!");
 			return;
 		}
 
-		await authHandler();
+		if(result.status === 200) {
+	await authHandler();
 		navigate("/");
+		}
+
+	
 	};
 
 	const showPreview = (e) => {

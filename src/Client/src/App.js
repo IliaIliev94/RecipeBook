@@ -8,6 +8,7 @@ import RecipeDetails from "./components/RecipeDetails/RecipeDetails";
 import CreateRecipe from "./components/CreateRecipe/CreateRecipe";
 import EditRecipe from "./components/EditRecipe/EditRecipe";
 import Error from "./components/Error/Error";
+import UserProfile from "./components/UserProfile/UserProfile.js";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated } from "./services/authService";
@@ -36,6 +37,10 @@ function App() {
 			/>
 			<main>
 				<Routes>
+					<Route
+						path="/"
+						element={isAuthenticated ? <UserProfile /> : ""}
+					/>
 					<Route path="/recipes" element={<RecipesListSection />} />
 					<Route
 						path="/register"

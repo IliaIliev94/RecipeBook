@@ -3,6 +3,7 @@ using API.Data.Models;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace API.Controllers
         {
             var recipe = this.context
                 .Recipes
+                .Include(recipe => recipe.Creater)
                 .FirstOrDefault(recipe => recipe.Id == id);
 
 
@@ -48,6 +50,8 @@ namespace API.Controllers
             {
                 return NotFound();
             }
+
+
 
 
 
@@ -59,7 +63,8 @@ namespace API.Controllers
                 MinMinutes = recipe.MinMinutes,
                 MaxMinutes = recipe.MaxMinutes,
                 IsOwner = User.Identity.IsAuthenticated ? recipe.UserId == this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : false,
-                UserImage = this.context.Users.FirstOrDefault(user => user.Id == recipe.UserId).ImageName,
+                Username = recipe.Creater.Username,
+                UserImage = recipe.Creater.ImageName,
             };
 
             return result;
@@ -129,6 +134,31 @@ namespace API.Controllers
             this.context.SaveChanges();
 
             return Ok();
+        }
+
+        [HttpGet("user-recipes/{id:Guid?}")]
+        public UserDetailsViewModel UserRecipes(Guid? id)
+        {
+            var userId = id == null ? this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : id;
+
+            var recipes = this.context.Users.Where(user => user.Id == userId)
+                .Select(user => new UserDetailsViewModel
+                {
+                    Username = user.Username,
+                    ImageName = user.ImageName,
+                    Recipes = user.Recipes.Select(recipe => new RecipeCatalogViewModel
+                    {
+                        Id = recipe.Id,
+                        Title = recipe.Title,
+                        ImageURI = recipe.ImageURI,
+                        Description = recipe.Description.Substring(0, 100),
+                        MinMinutes = recipe.MinMinutes,
+                        MaxMinutes = recipe.MaxMinutes,
+                    }).ToList()
+                })
+                .First();
+
+            return recipes;
         }
     }
 }
