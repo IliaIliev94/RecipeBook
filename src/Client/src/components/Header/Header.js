@@ -1,13 +1,10 @@
 import "./Header.css";
 import Navbar from "../Navbar/Navbar";
 
-function Header({ isAuthenticated, authHandler }) {
+function Header({ authHandler }) {
 	return (
 		<header>
-			<Navbar
-				isAuthenticated={isAuthenticated}
-				authHandler={authHandler}
-			/>
+			<Navbar authHandler={authHandler} />
 		</header>
 	);
 }

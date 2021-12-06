@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Data.Models;
+using API.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,15 @@ namespace API.Services
 
             context.Users.Add(user);
             context.SaveChanges();
+        }
+
+        public UserData GetUserData(string username)
+        {
+            var user = this.context.Users.FirstOrDefault(user => user.Username == username);
+
+            var userData = new UserData { Username = user.Username, UserImage = user.ImageName };
+
+            return userData;
         }
     }
 }

@@ -1,43 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { getUserRecipes } from "../../services/recipesService";
 import RecipesCard from "../RecipesCard/RecipesCard";
 import Pagination from "../Pagination/Pagination";
 import "./UserProfile.css";
+import AuthContext from "../../contexts/AuthContext";
 
 function UserProfile({ username }) {
 	const postsPerPage = 9;
-	const baseAvatarUrl = require.context(
-		"../../../public/images/Avatars",
-		true
-	);
-
-	const [userData, setUserData] = useState({
-		username: "",
-		imageName: "",
-		recipes: [],
-	});
+	const navigate = useNavigate();
+	const [recipes, setRecipes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [image, setImage] = useState("");
+	const { user } = useContext(AuthContext);
 	useEffect(async () => {
-		const result = await getUserRecipes();
-		setUserData(result);
-	}, []);
-
-	useEffect(() => {
-		if (userData.imageName !== "") {
-			setImage(baseAvatarUrl(`./${userData.imageName}`).default);
+		try {
+			const result = await getUserRecipes();
+			setRecipes(result);
+		} catch {
+			navigate("/500");
 		}
-	}, [userData.imageName]);
+	}, []);
 
 	function buttonClickHandler(page) {
 		setCurrentPage(page);
 	}
 
 	const renderUserProfile = () => {
-		if (userData.recipes.length > 0) {
+		if (recipes.length > 0) {
 			return (
 				<div className="row d-flex align-items-stretch justify-content-center">
-					{userData.recipes
+					{recipes
 						.slice(
 							(currentPage - 1) * postsPerPage,
 							(currentPage - 1) * postsPerPage + postsPerPage
@@ -46,7 +38,7 @@ function UserProfile({ username }) {
 							<RecipesCard recipe={recipe}></RecipesCard>
 						))}
 					<Pagination
-						totalPosts={userData.recipes.length}
+						totalPosts={recipes.length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}
 						onClickHandler={buttonClickHandler}
@@ -54,14 +46,21 @@ function UserProfile({ username }) {
 				</div>
 			);
 		} else {
-			return <h2 className="text-center">No recipes yet!</h2>;
+			return (
+				<>
+					<h2 className="text-center">No recipes yet!</h2>
+					<Link to="recipes/create" className="btn btn-primary">
+						Add recipes!
+					</Link>
+				</>
+			);
 		}
 	};
 
 	return (
 		<div className="container my-5">
-			<h2 className="text-center">Welcome, {userData.username}</h2>
-			<img className="user-avatar" src={image !== "" ? image : ""} />
+			<h2 className="text-center">Welcome, {user.username}</h2>
+			<img className="user-avatar" src={user.imageName} />
 			<h3>Recipes</h3>
 			{renderUserProfile()}
 		</div>

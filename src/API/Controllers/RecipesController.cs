@@ -137,26 +137,20 @@ namespace API.Controllers
         }
 
         [HttpGet("user-recipes/{id:Guid?}")]
-        public UserDetailsViewModel UserRecipes(Guid? id)
+        public IEnumerable<RecipeCatalogViewModel> UserRecipes(Guid? id)
         {
             var userId = id == null ? this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : id;
 
-            var recipes = this.context.Users.Where(user => user.Id == userId)
-                .Select(user => new UserDetailsViewModel
+            var recipes = this.context.Recipes.Where(recipe => recipe.UserId == userId)
+                .Select(recipe => new RecipeCatalogViewModel
                 {
-                    Username = user.Username,
-                    ImageName = user.ImageName,
-                    Recipes = user.Recipes.Select(recipe => new RecipeCatalogViewModel
-                    {
-                        Id = recipe.Id,
-                        Title = recipe.Title,
-                        ImageURI = recipe.ImageURI,
-                        Description = recipe.Description.Substring(0, 100),
-                        MinMinutes = recipe.MinMinutes,
-                        MaxMinutes = recipe.MaxMinutes,
-                    }).ToList()
-                })
-                .First();
+                    Id = recipe.Id,
+                    Title = recipe.Title,
+                    ImageURI = recipe.ImageURI,
+                    Description = recipe.Description.Substring(0, 100),
+                    MinMinutes = recipe.MinMinutes,
+                    MaxMinutes = recipe.MaxMinutes,
+                }).ToList();
 
             return recipes;
         }

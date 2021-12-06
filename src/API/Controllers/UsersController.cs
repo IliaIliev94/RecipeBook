@@ -102,7 +102,13 @@ namespace API.Controllers
         [HttpGet("isAuthenticated")]
         public IActionResult IsAuthenticated()
         {
-            return Ok(User.Identity.IsAuthenticated);
+            if(!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized(false);
+            }
+
+            var userData = _userService.GetUserData(User.Identity.Name);
+            return Ok(userData);
         }
 
         [NonAction]

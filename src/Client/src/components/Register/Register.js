@@ -28,12 +28,8 @@ function Register({ authHandler }) {
 			return;
 		}
 
-		if(result.status === 200) {
-	await authHandler();
+		authHandler();
 		navigate("/");
-		}
-
-	
 	};
 
 	const showPreview = (e) => {

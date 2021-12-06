@@ -14,7 +14,6 @@ function Login({ authHandler }) {
 			alert("Wrong input data! Try again!");
 			return;
 		}
-
 		await authHandler();
 		navigate("/");
 	};
