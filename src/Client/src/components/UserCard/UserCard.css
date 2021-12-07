@@ -1,0 +1,12 @@
+.card-profile {
+	position: relative;
+}
+
+@media all and (min-width: 620px) {
+	.card-profile-img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}

@@ -7,16 +7,19 @@ import "./UserProfile.css";
 import AuthContext from "../../contexts/AuthContext";
 import Loader from "../Loader/Loader";
 import { deleteRecipe } from "../../services/recipesService";
+import SearchBar from "../SearchBar/SearchBar";
 
 function UserProfile({ isInUserProfile = false }) {
 	const postsPerPage = 9;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
+	const [searchParameter, setSearchParameter] = useState("");
 	const [userData, setUserData] = useState({ username: "", imageName: "" });
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { username } = useParams();
 	const { user } = useContext(AuthContext);
+
 	useEffect(async () => {
 		try {
 			const result = isInUserProfile
@@ -51,6 +54,25 @@ function UserProfile({ isInUserProfile = false }) {
 		setCurrentPage(page);
 	}
 
+	function onClickSearch(searchParams) {
+		setSearchParameter(searchParams);
+	}
+
+	function renderRecipes() {
+		if (searchParameter == "") {
+			return recipes;
+		}
+		return recipes.filter(
+			(recipe) =>
+				recipe.title
+					.toLowerCase()
+					.includes(searchParameter.toLowerCase()) ||
+				recipe.description
+					.toLowerCase()
+					.includes(searchParameter.toLowerCase())
+		);
+	}
+
 	const renderUserProfile = () => {
 		if (isLoading) {
 			return <Loader></Loader>;
@@ -58,8 +80,14 @@ function UserProfile({ isInUserProfile = false }) {
 		if (recipes.length > 0) {
 			return (
 				<>
+					<SearchBar
+						placeholder="Recipe"
+						onClickSearch={onClickSearch}
+					>
+						Search
+					</SearchBar>
 					<div className="row d-flex align-items-stretch justify-content-center">
-						{recipes
+						{renderRecipes()
 							.slice(
 								(currentPage - 1) * postsPerPage,
 								(currentPage - 1) * postsPerPage + postsPerPage
@@ -107,7 +135,7 @@ function UserProfile({ isInUserProfile = false }) {
 						: `/images/Avatars/${userData.imageName}`
 				}
 			/>
-			<h3>Recipes</h3>
+			<h3 className="my-5">Recipes</h3>
 			{renderUserProfile()}
 		</div>
 	);

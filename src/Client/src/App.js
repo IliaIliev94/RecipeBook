@@ -13,6 +13,7 @@ import EditRecipe from "./components/EditRecipe/EditRecipe";
 import Error from "./components/Error/Error";
 import UserProfile from "./components/UserProfile/UserProfile.js";
 import GuestPage from "./components/GuestPage/GuestPage";
+import UsersCatalog from "./components/UsersCatalog/UsersCatalog";
 import AuthContext from "./contexts/AuthContext";
 
 function App() {
@@ -103,6 +104,7 @@ function App() {
 								)
 							}
 						></Route>
+						<Route path="/users" element={<UsersCatalog />}></Route>
 						<Route
 							path="/users/:username"
 							element={<UserProfile />}

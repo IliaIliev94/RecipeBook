@@ -1,6 +1,6 @@
 import "./SearchBar.css";
 
-function SearchBar(props) {
+function SearchBar({ placeholder, children, onClickSearch }) {
 	return (
 		<form
 			action="#"
@@ -10,14 +10,14 @@ function SearchBar(props) {
 				const searchInput = new FormData(e.currentTarget).get(
 					"searchInput"
 				);
-				props.onClickSearch(searchInput);
+				onClickSearch(searchInput);
 			}}
 		>
 			<div className="feature-image-searchbar input-group mb-3 col-md-10 p-5">
 				<input
 					type="text"
 					className="form-control"
-					placeholder={props.placeholder}
+					placeholder={placeholder}
 					aria-label="Recipient's username"
 					aria-describedby="button-addon2"
 					name="searchInput"
@@ -27,7 +27,7 @@ function SearchBar(props) {
 					type="submit"
 					id="button-addon2"
 				>
-					{props.children}
+					{children}
 				</button>
 			</div>
 		</form>
