@@ -55,5 +55,10 @@ namespace API.Services
 
             return userData;
         }
+
+        public Guid GetUserId(string username)
+        {
+            return this.context.Users.FirstOrDefault(user => user.Username == username).Id;
+        }
     }
 }

@@ -1,7 +1,11 @@
-﻿namespace API.Models
+﻿using System;
+
+namespace API.Models.Recipes
 {
-    public class RecipeDetailsViewModel
+    public sealed class RecipeCatalogViewModel
     {
+        public Guid Id { get; init; }
+
         public string Title { get; set; }
 
         public string ImageURI { get; set; }
@@ -11,11 +15,5 @@
         public int? MinMinutes { get; set; }
 
         public int? MaxMinutes { get; set; }
-
-        public bool IsOwner { get; set; }
-
-        public string Username { get; set; }
-
-        public string UserImage { get; set; }
     }
 }

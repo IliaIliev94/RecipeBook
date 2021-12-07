@@ -12,6 +12,7 @@ namespace API.Services
         bool EmailIsTaken(string email);
         bool IsValidUserCredentials(string userName, string password);
         void CreateUser(string username, string email, string password, string imageName);
+        Guid GetUserId(string username);
         UserData GetUserData(string username);
     }
 }

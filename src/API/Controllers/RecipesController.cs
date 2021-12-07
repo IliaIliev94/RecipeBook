@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Data.Models;
-using API.Models;
+using API.Models.Recipes;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ namespace API.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly RecipeBookContext context;
+        private readonly IUserService userService;
 
-        public RecipesController(RecipeBookContext context)
+        public RecipesController(RecipeBookContext context, IUserService userService)
         {
             this.context = context;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -133,22 +136,33 @@ namespace API.Controllers
         }
 
         [HttpGet("user-recipes/{username?}")]
-        public IEnumerable<RecipeCatalogViewModel> UserRecipes(string? username=null)
+        public ActionResult<UserDetailsViewModel> UserRecipes(string? username=null)
         {
-            var userId = username == null ? this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : this.context.Users.FirstOrDefault(user => user.Username == username).Id;
 
-            var recipes = this.context.Recipes.Where(recipe => recipe.UserId == userId)
-                .Select(recipe => new RecipeCatalogViewModel
+            if(username == null && !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            var userId = username == null ? this.userService.GetUserId(User.Identity.Name) : this.userService.GetUserId(username);
+
+            var result = this.context.Users.Where(user => user.Id == userId)
+                .Select(user => new UserDetailsViewModel
                 {
-                    Id = recipe.Id,
-                    Title = recipe.Title,
-                    ImageURI = recipe.ImageURI,
-                    Description = recipe.Description.Substring(0, 100),
-                    MinMinutes = recipe.MinMinutes,
-                    MaxMinutes = recipe.MaxMinutes,
-                }).ToList();
+                    Username = username == null ? null : user.Username,
+                    ImageName = username == null ? null : user.ImageName,
+                    Recipes = user.Recipes.Select(recipe => new RecipeCatalogViewModel
+                    {
+                        Id = recipe.Id,
+                        Title = recipe.Title,
+                        ImageURI = recipe.ImageURI,
+                        Description = recipe.Description.Substring(0, 100),
+                        MinMinutes = recipe.MinMinutes,
+                        MaxMinutes = recipe.MaxMinutes,
+                    }).ToList()
+                }).First();
 
-            return recipes;
+            return result;
         }
     }
 }

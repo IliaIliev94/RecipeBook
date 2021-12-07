@@ -12,25 +12,31 @@ function UserProfile({ isInUserProfile = false }) {
 	const postsPerPage = 9;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
+	const [userData, setUserData] = useState({ username: "", imageName: "" });
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { username } = useParams();
 	const { user } = useContext(AuthContext);
 	useEffect(async () => {
 		try {
-			console.log("User profile:");
-			console.log(isInUserProfile);
 			const result = isInUserProfile
 				? await getUserRecipes()
 				: await getUserRecipes(username);
 			if (result !== null) {
 				setIsLoading(false);
 			}
-			setRecipes(result);
+			if (result.status === 401) {
+				navigate("/");
+			}
+			setRecipes(result.recipes);
+			setUserData({
+				username: result.username,
+				imageName: result.imageName,
+			});
 		} catch {
 			navigate("/500");
 		}
-	}, []);
+	}, [username]);
 
 	async function deleteHandler(id) {
 		const result = await deleteRecipe(id);
@@ -74,7 +80,7 @@ function UserProfile({ isInUserProfile = false }) {
 					/>
 				</>
 			);
-		} else {
+		} else if (recipes.length <= 0 && isInUserProfile) {
 			return (
 				<>
 					<h2 className="text-center">No recipes yet!</h2>
@@ -89,9 +95,18 @@ function UserProfile({ isInUserProfile = false }) {
 	return (
 		<div className="container my-5">
 			<h2 className="text-center">
-				{isInUserProfile ? `Welcome, ${user.username}` : ""}
+				{isInUserProfile
+					? `Welcome, ${user.username}`
+					: userData.username}
 			</h2>
-			<img className="user-avatar" src={user.imageName} />
+			<img
+				className="user-avatar"
+				src={
+					isInUserProfile
+						? user.imageName
+						: `/images/Avatars/${userData.imageName}`
+				}
+			/>
 			<h3>Recipes</h3>
 			{renderUserProfile()}
 		</div>

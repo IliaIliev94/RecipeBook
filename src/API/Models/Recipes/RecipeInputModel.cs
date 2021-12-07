@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace API.Models
+namespace API.Models.Recipes
 {
-    public class RecipeEditInputModel
+    public class RecipeInputModel
     {
-        public Guid Id { get; init; }
         [Required]
         public string Title { get; set; }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Data.Models
+namespace API.Models.Users
 {
     public class LoginRequest
     {
