@@ -16,6 +16,15 @@ main {
 	margin-bottom: 120px;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Georgia, serif;
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;

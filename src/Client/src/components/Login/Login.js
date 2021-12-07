@@ -10,11 +10,13 @@ function Login({ authHandler }) {
 		const username = formData.get("username");
 		const password = formData.get("password");
 		const result = await login(username, password);
+		console.log(result);
 		if (result.status !== 200) {
 			alert("Wrong input data! Try again!");
 			return;
 		}
-		await authHandler();
+
+		authHandler();
 		navigate("/");
 	};
 	return (

@@ -1,49 +1,78 @@
 import { useEffect, useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getUserRecipes } from "../../services/recipesService";
 import RecipesCard from "../RecipesCard/RecipesCard";
 import Pagination from "../Pagination/Pagination";
 import "./UserProfile.css";
 import AuthContext from "../../contexts/AuthContext";
+import Loader from "../Loader/Loader";
+import { deleteRecipe } from "../../services/recipesService";
 
-function UserProfile({ username }) {
+function UserProfile({ isInUserProfile = false }) {
 	const postsPerPage = 9;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
+	const { username } = useParams();
 	const { user } = useContext(AuthContext);
 	useEffect(async () => {
 		try {
-			const result = await getUserRecipes();
+			console.log("User profile:");
+			console.log(isInUserProfile);
+			const result = isInUserProfile
+				? await getUserRecipes()
+				: await getUserRecipes(username);
+			if (result !== null) {
+				setIsLoading(false);
+			}
 			setRecipes(result);
 		} catch {
 			navigate("/500");
 		}
 	}, []);
 
+	async function deleteHandler(id) {
+		const result = await deleteRecipe(id);
+		if (result.ok) {
+			setRecipes(recipes.filter((recipe) => recipe.id !== id));
+		} else {
+			navigate("/400");
+		}
+	}
+
 	function buttonClickHandler(page) {
 		setCurrentPage(page);
 	}
 
 	const renderUserProfile = () => {
+		if (isLoading) {
+			return <Loader></Loader>;
+		}
 		if (recipes.length > 0) {
 			return (
-				<div className="row d-flex align-items-stretch justify-content-center">
-					{recipes
-						.slice(
-							(currentPage - 1) * postsPerPage,
-							(currentPage - 1) * postsPerPage + postsPerPage
-						)
-						.map((recipe) => (
-							<RecipesCard recipe={recipe}></RecipesCard>
-						))}
+				<>
+					<div className="row d-flex align-items-stretch justify-content-center">
+						{recipes
+							.slice(
+								(currentPage - 1) * postsPerPage,
+								(currentPage - 1) * postsPerPage + postsPerPage
+							)
+							.map((recipe) => (
+								<RecipesCard
+									isInUserProfile={isInUserProfile}
+									recipe={recipe}
+									deleteHandler={deleteHandler}
+								></RecipesCard>
+							))}
+					</div>
 					<Pagination
 						totalPosts={recipes.length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}
 						onClickHandler={buttonClickHandler}
 					/>
-				</div>
+				</>
 			);
 		} else {
 			return (
@@ -59,7 +88,9 @@ function UserProfile({ username }) {
 
 	return (
 		<div className="container my-5">
-			<h2 className="text-center">Welcome, {user.username}</h2>
+			<h2 className="text-center">
+				{isInUserProfile ? `Welcome, ${user.username}` : ""}
+			</h2>
 			<img className="user-avatar" src={user.imageName} />
 			<h3>Recipes</h3>
 			{renderUserProfile()}

@@ -74,6 +74,16 @@ function RecipeDetails() {
 						) : (
 							""
 						)}
+						<article>
+							<h3>Created by:</h3>
+							<Link to={"/users/" + recipe.username}>
+								<img
+									className="avatar"
+									src={"/images/Avatars/" + recipe.userImage}
+								/>
+								<h3>{recipe.username}</h3>
+							</Link>
+						</article>
 					</>
 				) : (
 					<Loader></Loader>

@@ -75,8 +75,12 @@ export async function deleteRecipe(id) {
 	return response;
 }
 
-export async function getUserRecipes() {
-	const response = await fetch(`${baseUrl}/user-recipes`, {
+export async function getUserRecipes(username = null) {
+	const url = `${baseUrl}/user-recipes${
+		username === null ? "" : `/${username}`
+	}`;
+	console.log(url);
+	const response = await fetch(url, {
 		method: "GET",
 		credentials: "include",
 	});

@@ -51,10 +51,6 @@ namespace API.Controllers
                 return NotFound();
             }
 
-
-
-
-
             var result = new RecipeDetailsViewModel
             {
                 Title = recipe.Title,
@@ -136,10 +132,10 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("user-recipes/{id:Guid?}")]
-        public IEnumerable<RecipeCatalogViewModel> UserRecipes(Guid? id)
+        [HttpGet("user-recipes/{username?}")]
+        public IEnumerable<RecipeCatalogViewModel> UserRecipes(string? username=null)
         {
-            var userId = id == null ? this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : id;
+            var userId = username == null ? this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : this.context.Users.FirstOrDefault(user => user.Username == username).Id;
 
             var recipes = this.context.Recipes.Where(recipe => recipe.UserId == userId)
                 .Select(recipe => new RecipeCatalogViewModel

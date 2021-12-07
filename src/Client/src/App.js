@@ -1,4 +1,7 @@
 import "./App.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { isAuthenticated } from "./services/authService";
 import Header from "./components/Header/Header";
 import RecipesListSection from "./components/RecipesListSection/RecipesListSection";
 import Footer from "./components/Footer/Footer";
@@ -9,14 +12,12 @@ import CreateRecipe from "./components/CreateRecipe/CreateRecipe";
 import EditRecipe from "./components/EditRecipe/EditRecipe";
 import Error from "./components/Error/Error";
 import UserProfile from "./components/UserProfile/UserProfile.js";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-import { isAuthenticated } from "./services/authService";
+import GuestPage from "./components/GuestPage/GuestPage";
 import AuthContext from "./contexts/AuthContext";
 
 function App() {
 	const navigate = useNavigate();
-	const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
+	const [userIsAuthenticated, setUserIsAuthenticated] = useState(null);
 	const [user, setUser] = useState({ username: "", imageName: "" });
 
 	useEffect(async () => {
@@ -58,7 +59,13 @@ function App() {
 					<Routes>
 						<Route
 							path="/"
-							element={isAuthenticated ? <UserProfile /> : ""}
+							element={
+								!userIsAuthenticated ? (
+									<GuestPage />
+								) : (
+									<UserProfile isInUserProfile={true} />
+								)
+							}
 						/>
 						<Route
 							path="/recipes"
@@ -96,6 +103,13 @@ function App() {
 								)
 							}
 						></Route>
+						<Route
+							path="/users/:username"
+							element={<UserProfile />}
+						></Route>
+						<Route path="/400">
+							Bad request! There was an error with the request!
+						</Route>
 						<Route
 							path="/500"
 							element={

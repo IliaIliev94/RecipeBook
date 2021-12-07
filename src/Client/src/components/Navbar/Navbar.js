@@ -2,7 +2,7 @@ import "./Navbar.css";
 import NavItem from "../NavItem/NavItem";
 import { logout } from "../../services/authService";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 
 function Navbar({ authHandler }) {
@@ -12,7 +12,6 @@ function Navbar({ authHandler }) {
 		const result = await logout();
 		await authHandler();
 		navigate("/");
-		console.log(result);
 	};
 
 	const userAuthenticationSection = () => {
@@ -37,9 +36,9 @@ function Navbar({ authHandler }) {
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-danger px-5">
 			<div className="container-fluid">
-				<a className="navbar-brand mr-md-5 text-light" href="#">
+				<Link className="navbar-brand mr-md-5 text-light" to="/">
 					RecipeBook
-				</a>
+				</Link>
 				<button
 					className="navbar-toggler"
 					type="button"

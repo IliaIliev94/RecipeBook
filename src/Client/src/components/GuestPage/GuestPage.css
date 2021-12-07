@@ -1,0 +1,41 @@
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	color: white;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.overlay-cta-container {
+	padding-top: 200px;
+	display: flex;
+	width: 20%;
+	justify-content: space-evenly;
+	margin: 0 auto;
+}
+
+.overlay-heading-container {
+	margin-top: 50px;
+}
+
+.overlay-cta-container a {
+	font-size: 30px;
+	padding: 10px 20px;
+	color: white;
+}
+
+@media (max-width: 1200px) {
+	.overlay-heading-container {
+		margin-top: 50px;
+	}
+
+	.overlay-cta-container {
+		padding-top: 50px;
+		width: 60%;
+	}
+}

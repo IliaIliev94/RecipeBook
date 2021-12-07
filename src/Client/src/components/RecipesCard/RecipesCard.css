@@ -7,6 +7,11 @@
 	margin: auto auto 0 auto;
 }
 
+.card-body-cta {
+	width: 70%;
+	margin: 0 auto;
+}
+
 @media only screen and (max-width: 1000px) {
 	.card-button {
 		width: 100%;
