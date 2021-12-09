@@ -35,8 +35,6 @@ function CreateRecipe() {
 			minMinutes,
 			maxMinutes
 		);
-		console.log(result);
-		console.log("Result: " + result);
 
 		if (result.status !== 200) {
 			alert("Incorrect data try again!");
@@ -49,6 +47,7 @@ function CreateRecipe() {
 			errors={errors}
 			handleSubmit={handleSubmit}
 			recipeData={undefined}
+			page="Create"
 		/>
 	);
 }

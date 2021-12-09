@@ -3,12 +3,14 @@ import { getUsers } from "../../services/usersService";
 import UserCard from "../UserCard/UserCard";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
+import SearchBar from "../SearchBar/SearchBar";
 
 function UsersCatalog() {
 	const postsPerPage = 10;
 	const [users, setUsers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [searchQuery, setSearchQuery] = useState("");
 	useEffect(async () => {
 		const result = await getUsers();
 		if (result !== null) {
@@ -21,14 +23,31 @@ function UsersCatalog() {
 		setCurrentPage(page);
 	}
 
+	function onClickSearch(searchParams) {
+		setSearchQuery(searchParams);
+	}
+
+	const renderUsers = () => {
+		if (searchQuery === "") {
+			return users;
+		}
+
+		return users.filter((user) =>
+			user.username.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	};
+
 	const renderUsersCatalogue = () => {
 		if (isLoading) {
 			return <Loader />;
 		} else if (users.length > 0) {
 			return (
 				<>
+					<SearchBar placeholder="User" onClickSearch={onClickSearch}>
+						Search
+					</SearchBar>
 					<div className="row">
-						{users
+						{renderUsers()
 							.slice(
 								(currentPage - 1) * postsPerPage,
 								(currentPage - 1) * postsPerPage + postsPerPage
@@ -38,7 +57,8 @@ function UsersCatalog() {
 							))}
 					</div>
 					<Pagination
-						totalPosts={users.length}
+						key={searchQuery}
+						totalPosts={renderUsers().length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}
 						onClickHandler={buttonClickHandler}

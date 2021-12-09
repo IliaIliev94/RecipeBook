@@ -104,7 +104,8 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 							))}
 					</div>
 					<Pagination
-						totalPosts={recipes.length}
+						key={searchParameter}
+						totalPosts={renderRecipes().length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}
 						onClickHandler={buttonClickHandler}

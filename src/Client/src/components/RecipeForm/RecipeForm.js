@@ -7,13 +7,14 @@ function RecipeForm({
 	minMinutes,
 	maxMinutes,
 	errors,
+	page,
 }) {
 	return (
 		<form
 			className="mx-auto col-10 col-md-8 col-lg-6 form-group"
 			onSubmit={handleSubmit}
 		>
-			<h2>Create recipe</h2>
+			<h2>{page} recipe</h2>
 			<div className="register-form-inputs">
 				<div className="col-10 text-left mx-auto">
 					<label for="title">Title</label>

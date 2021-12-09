@@ -60,6 +60,7 @@ function EditRecipe() {
 			minMinutes={recipeData.minMinutes}
 			maxMinutes={recipeData.maxMinutes}
 			errors={errors}
+			page="Edit"
 		/>
 	);
 }
