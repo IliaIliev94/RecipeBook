@@ -25,6 +25,11 @@ h6 {
 	font-family: Georgia, serif;
 }
 
+.form-error {
+	font-size: 12px;
+	color: red;
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;

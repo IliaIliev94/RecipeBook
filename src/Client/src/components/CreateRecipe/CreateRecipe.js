@@ -1,23 +1,33 @@
 import "../Register/Register.css";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../../services/recipesService";
+import { validateRecipe } from "../../helpers/validateHelper";
 import RecipeForm from "../RecipeForm/RecipeForm";
 
 function CreateRecipe() {
+	const [errors, setErrors] = useState({});
 	let navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const title = formData.get("title");
-		const imageURI = formData.get("imageURI");
-		const description = formData.get("description");
-		const minMinutes = formData.get("minMinutes");
-		const maxMinutes = formData.get("maxMinutes");
-		if (title.length > 50) {
-			alert("Title must be less than 50 characters!");
+		const { title, imageURI, description, minMinutes, maxMinutes } =
+			Object.fromEntries(formData);
+
+		const validationErrors = validateRecipe(
+			title,
+			imageURI,
+			description,
+			minMinutes,
+			maxMinutes
+		);
+
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
 			return;
 		}
+
 		let result = await createRecipe(
 			title,
 			imageURI,
@@ -34,7 +44,13 @@ function CreateRecipe() {
 		}
 		navigate("/");
 	}
-	return <RecipeForm handleSubmit={handleSubmit} recipeData={undefined} />;
+	return (
+		<RecipeForm
+			errors={errors}
+			handleSubmit={handleSubmit}
+			recipeData={undefined}
+		/>
+	);
 }
 
 export default CreateRecipe;

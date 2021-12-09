@@ -37,11 +37,13 @@ namespace API.Controllers
         {
             if(_userService.IsAnExistingUser(request.Username))
             {
-                return BadRequest("Username is taken!");
+                ModelState.AddModelError("Username", "Username is already taken!");
+                return BadRequest(ModelState);
             }
             else if(_userService.EmailIsTaken(request.Email))
             {
-                return BadRequest("Email is taken!");
+                ModelState.AddModelError("Email", "Email is already taken!");
+                return BadRequest(ModelState);
             }
             else if(request.Password != request.ConfirmPassword)
             {
@@ -72,7 +74,8 @@ namespace API.Controllers
         {
             if (!_userService.IsValidUserCredentials(request.Username, request.Password))
             {
-                return Unauthorized();
+                ModelState.AddModelError("Password", "Invalid username or password!");
+                return BadRequest(ModelState);
             }
 
             var claims = new[]
@@ -109,6 +112,12 @@ namespace API.Controllers
 
             var userData = _userService.GetUserData(User.Identity.Name);
             return Ok(userData);
+        }
+
+        [HttpGet]
+        public IEnumerable<UserCatalogViewModel> GetUsers()
+        {
+            return _userService.GetUsers();
         }
 
         [NonAction]

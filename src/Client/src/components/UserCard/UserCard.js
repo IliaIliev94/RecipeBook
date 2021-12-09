@@ -1,7 +1,7 @@
 import "./UserCard.css";
 import { Link } from "react-router-dom";
 
-function UserCard({ user: { avatar, username, recipesCount } }) {
+function UserCard({ user: { imageName, username, recipesCount } }) {
 	return (
 		<div className="col-12 col-md-6">
 			<div className="card">
@@ -9,8 +9,8 @@ function UserCard({ user: { avatar, username, recipesCount } }) {
 					<div className="col-sm-5 card-profile">
 						<img
 							className="avatar card-profile-img mt-auto"
-							src={"/images/Avatars/" + avatar}
-							alt="Suresh Dasari Card"
+							src={"/images/Avatars/" + imageName}
+							alt="user avatar"
 						/>
 					</div>
 					<div className="col-sm-7">

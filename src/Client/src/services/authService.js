@@ -23,11 +23,7 @@ export async function login(username, password) {
 		}),
 	});
 
-	if (response.ok) {
-		return response;
-	}
-
-	return await response.json();
+	return response;
 }
 
 export async function logout() {

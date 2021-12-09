@@ -9,7 +9,7 @@ import Loader from "../Loader/Loader";
 import { deleteRecipe } from "../../services/recipesService";
 import SearchBar from "../SearchBar/SearchBar";
 
-function UserProfile({ isInUserProfile = false }) {
+function UserProfile({ isInUserProfile = false, authHandler }) {
 	const postsPerPage = 9;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
@@ -28,14 +28,17 @@ function UserProfile({ isInUserProfile = false }) {
 			if (result !== null) {
 				setIsLoading(false);
 			}
+			console.log(result);
 			if (result.status === 401) {
+				authHandler();
 				navigate("/");
+			} else {
+				setRecipes(result.recipes);
+				setUserData({
+					username: result.username,
+					imageName: result.imageName,
+				});
 			}
-			setRecipes(result.recipes);
-			setUserData({
-				username: result.username,
-				imageName: result.imageName,
-			});
 		} catch {
 			navigate("/500");
 		}

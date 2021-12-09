@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RecipeForm from "../RecipeForm/RecipeForm";
 import { getOne, editRecipe } from "../../services/recipesService";
+import { validateRecipe } from "../../helpers/validateHelper";
 
 function EditRecipe() {
 	const [recipeData, setRecipeData] = useState({});
+	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
 	const id = useParams().id;
 
@@ -19,10 +21,20 @@ function EditRecipe() {
 		const formData = new FormData(e.currentTarget);
 		const { title, imageURI, description, minMinutes, maxMinutes } =
 			Object.fromEntries(formData);
-		if (title.length > 50) {
-			alert("Title must be less than 50 characters!");
+
+		const validationErrors = validateRecipe(
+			title,
+			imageURI,
+			description,
+			minMinutes,
+			maxMinutes
+		);
+
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
 			return;
 		}
+
 		const result = await editRecipe(
 			id,
 			title,
@@ -47,6 +59,7 @@ function EditRecipe() {
 			imageURI={recipeData.imageURI}
 			minMinutes={recipeData.minMinutes}
 			maxMinutes={recipeData.maxMinutes}
+			errors={errors}
 		/>
 	);
 }

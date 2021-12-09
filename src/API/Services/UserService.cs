@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Data.Models;
+using API.Models.Users;
 using API.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,17 @@ namespace API.Services
         public Guid GetUserId(string username)
         {
             return this.context.Users.FirstOrDefault(user => user.Username == username).Id;
+        }
+
+        public IEnumerable<UserCatalogViewModel> GetUsers()
+        {
+            return this.context.Users.Select(user => new UserCatalogViewModel
+            {
+                Username = user.Username,
+                ImageName = user.ImageName,
+                RecipesCount = user.Recipes.Count,
+            })
+                .ToList();
         }
     }
 }

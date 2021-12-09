@@ -18,12 +18,12 @@
 	border-top-right-radius: 20px;
 }
 
-.form-group input {
-	margin: 0 auto 20px auto;
+.register-form-inputs {
+	margin-top: 50px;
 }
 
-.register-form-inputs {
-	margin-top: 65px;
+.register-form-inputs > div {
+	margin-bottom: 20px;
 }
 
 .avatar {
