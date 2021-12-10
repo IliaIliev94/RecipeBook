@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace API.Data.Models
 {
     public class Recipe
     {
+        public Recipe()
+        {
+            this.RecipeLikes = new HashSet<RecipeLike>();
+        }
         public Guid Id { get; init; }
 
         public string Title { get; set; }
@@ -12,12 +17,13 @@ namespace API.Data.Models
 
         public string? Description { get; set; }
 
-        public int? MinMinutes { get; set; }
+        public int MinMinutes { get; set; }
 
-        public int? MaxMinutes { get; set; }
+        public int MaxMinutes { get; set; }
 
         public Guid UserId { get; set; }
 
         public User Creater { get; set; }
+        public virtual ICollection<RecipeLike> RecipeLikes { get; set; }
     }
 }

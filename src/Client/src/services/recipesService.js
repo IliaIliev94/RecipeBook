@@ -1,4 +1,5 @@
 const baseUrl = "https://localhost:7274/api/Recipes";
+const likesUrl = "https://localhost:7274/api/Likes";
 
 export async function getRecipes() {
 	const response = await fetch(baseUrl);
@@ -87,4 +88,23 @@ export async function getUserRecipes(username = null) {
 
 	const result = await response.json();
 	return result;
+}
+
+export async function likeRecipe(id) {
+	console.log(id);
+	const response = fetch(`${likesUrl}/like/${id}`, {
+		method: "GET",
+		credentials: "include",
+	});
+
+	return response;
+}
+
+export async function unlikeRecipe(id) {
+	const response = fetch(`${likesUrl}/unlike/${id}`, {
+		method: "GET",
+		credentials: "include",
+	});
+
+	return response;
 }

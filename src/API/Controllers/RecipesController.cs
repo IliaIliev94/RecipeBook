@@ -64,6 +64,7 @@ namespace API.Controllers
                 IsOwner = User.Identity.IsAuthenticated ? recipe.UserId == this.context.Users.FirstOrDefault(user => user.Username == User.Identity.Name).Id : false,
                 Username = recipe.Creater.Username,
                 UserImage = recipe.Creater.ImageName,
+                UsersLiked = context.Likes.Where(like => like.RecipeId == id).Select(like => like.User.Username).ToList(),
             };
 
             return result;

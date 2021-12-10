@@ -36,6 +36,7 @@ function Pagination({ totalPosts, postsPerPage, currentPage, onClickHandler }) {
 	const createButton = (page, text, isActive = "") => {
 		return (
 			<button
+				key={text}
 				onClick={() => onClickHandler(page)}
 				className={"btn btn-primary " + isActive}
 			>

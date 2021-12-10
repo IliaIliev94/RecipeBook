@@ -14,6 +14,8 @@ namespace API.Data
         public DbSet<Recipe> Recipes { get; init; }
         public DbSet<User> Users { get; init; }
 
+        public DbSet<RecipeLike> Likes { get; init; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RecipeBookContext).Assembly);

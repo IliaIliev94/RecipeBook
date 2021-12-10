@@ -26,7 +26,7 @@ function Navbar({ authHandler }) {
 		} else {
 			return (
 				<li href="#" className="nav-item" onClick={logoutUser}>
-					<a className="nav-link" aria-current="page">
+					<a href="#" className="nav-link" aria-current="page">
 						Logout
 					</a>
 				</li>
