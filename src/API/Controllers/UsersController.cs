@@ -62,11 +62,7 @@ namespace API.Controllers
 
             var jwtResult = _jwtAuthManager.GenerateTokens(request.Username, claims, DateTime.Now);
 
-            Response.Cookies.Append("X-Access-Token", jwtResult.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true });
-            Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true });
-            Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true });
-
-            return Ok();
+            return Login(new LoginRequest { Username = request.Username, Password = request.Password });
         }
 
         [HttpPost("login")]
@@ -89,12 +85,15 @@ namespace API.Controllers
             Response.Cookies.Append("X-Username", request.Username, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure=true });
             Response.Cookies.Append("X-Refresh-Token", jwtResult.RefreshToken.TokenString, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure=true });
 
-            return Ok();
+            var userData = _userService.GetUserData(request.Username);
+
+            return Ok(userData);
         }
 
         [Authorize]
         [HttpGet("logout")]
         public IActionResult Logout()
+        
         {
             Response.Cookies.Append("X-Access-Token", "", new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.Now.AddDays(-1) });
             Response.Cookies.Append("X-Username", "", new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.Now.AddDays(-1) });
@@ -107,7 +106,7 @@ namespace API.Controllers
         {
             if(!User.Identity.IsAuthenticated)
             {
-                return Unauthorized(false);
+                return Ok(false);
             }
 
             var userData = _userService.GetUserData(User.Identity.Name);

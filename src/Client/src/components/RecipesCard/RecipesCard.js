@@ -13,10 +13,10 @@ function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 				<div className="card-body d-flex flex-column">
 					<h5 className="card-title">{recipe.title}</h5>
 					<p className="card-text">{recipe.description}</p>
-					<article className="d-flex flex-md-row flex-column justify-content-around card-body-cta">
+					<article className="d-flex flex-md-row flex-column justify-content-around card-body-cta mt-auto">
 						<Link
 							to={"/recipes/" + recipe.id}
-							className="btn btn-primary card-button mt-3 mt-md-0"
+							className="btn btn-primary card-button mt-3 mt-md-auto"
 						>
 							Details
 						</Link>

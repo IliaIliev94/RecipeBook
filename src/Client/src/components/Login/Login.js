@@ -1,11 +1,13 @@
-import { login } from "../../services/authService";
-import { useState } from "react";
+import { authLogin } from "../../services/authService";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateLogin } from "../../helpers/validateHelper";
+import { useAuth } from "../../contexts/AuthContext";
 import "../Register/Register.css";
 
-function Login({ authHandler }) {
+function Login() {
 	const [errors, setErrors] = useState({});
+	const { login } = useAuth();
 	const navigate = useNavigate();
 	const loginUser = async (e) => {
 		e.preventDefault();
@@ -18,18 +20,18 @@ function Login({ authHandler }) {
 			return;
 		}
 
-		const result = await login(username, password);
-		console.log(result);
+		const result = await authLogin(username, password);
+
 		if (result.status !== 200) {
-			console.log(result);
 			const exception = await result.json();
 			for (const [key, value] of Object.entries(exception)) {
 				setErrors({ [key.toLowerCase()]: value[0] });
 			}
 			return;
 		}
+		const userData = await result.json();
 
-		authHandler();
+		login(userData.username, userData.userImage);
 		navigate("/");
 	};
 	return (

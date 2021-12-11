@@ -1,14 +1,16 @@
 import { register } from "../../services/authService";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { validateRegister } from "../../helpers/validateHelper";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Register.css";
 import img from "../../assets/Avatars/default-avatar.png";
 
-function Register({ authHandler }) {
+function Register() {
 	const [image, setImage] = useState({ imageSrc: img, imageFile: null });
 	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const registerUser = async (e) => {
 		e.preventDefault();
@@ -40,7 +42,9 @@ function Register({ authHandler }) {
 			return;
 		}
 
-		authHandler();
+		const userData = await result.json();
+		login(userData.username, userData.userImage);
+
 		navigate("/");
 	};
 

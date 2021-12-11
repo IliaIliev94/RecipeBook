@@ -28,6 +28,7 @@ namespace API.Controllers
         public IEnumerable<RecipeCatalogViewModel> GetRecipes()
         {
             return context.Recipes
+                .OrderByDescending(recipe => recipe.RecipeLikes.Count)
                 .Select(recipe => new RecipeCatalogViewModel
                 {
                     Id = recipe.Id,
@@ -152,7 +153,7 @@ namespace API.Controllers
                 {
                     Username = username == null ? null : user.Username,
                     ImageName = username == null ? null : user.ImageName,
-                    Recipes = user.Recipes.Select(recipe => new RecipeCatalogViewModel
+                    Recipes = user.Recipes.OrderByDescending(recipe => recipe.RecipeLikes.Count).Select(recipe => new RecipeCatalogViewModel
                     {
                         Id = recipe.Id,
                         Title = recipe.Title,

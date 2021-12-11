@@ -10,7 +10,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import "./RecipeDetails.css";
 import Loader from "../Loader/Loader";
 import Error from "../Error/Error";
-import AuthContext from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import RecipesCard from "../RecipesCard/RecipesCard";
 
 function RecipeDetails() {

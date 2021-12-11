@@ -4,13 +4,17 @@ import UserCard from "../UserCard/UserCard";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
+import usePagination from "../../hooks/usePagination";
+import useSearch from "../../hooks/useSearch";
 
 function UsersCatalog() {
-	const postsPerPage = 10;
 	const [users, setUsers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [searchQuery, setSearchQuery] = useState("");
+	const { searchQuery, onClickSearch } = useSearch();
+	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(
+		10,
+		searchQuery
+	);
 	useEffect(async () => {
 		const result = await getUsers();
 		if (result !== null) {
@@ -18,14 +22,6 @@ function UsersCatalog() {
 		}
 		setUsers(result);
 	}, []);
-
-	function buttonClickHandler(page) {
-		setCurrentPage(page);
-	}
-
-	function onClickSearch(searchParams) {
-		setSearchQuery(searchParams);
-	}
 
 	const renderUsers = () => {
 		if (searchQuery === "") {

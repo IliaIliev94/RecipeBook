@@ -5,13 +5,16 @@ import { getRecipes } from "../../services/recipesService";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import "../Loader/Loader.css";
+import usePagination from "../../hooks/usePagination";
 
 function RecipesCatalog({ searchParams }) {
-	const postsPerPage = 6;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
-	const [currentPage, setCurrentPage] = useState(1);
+	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(
+		6,
+		searchParams
+	);
 
 	useEffect(async () => {
 		try {
@@ -24,16 +27,6 @@ function RecipesCatalog({ searchParams }) {
 			navigate("/500");
 		}
 	}, []);
-
-	useEffect(() => {
-		setCurrentPage(1);
-	}, [searchParams]);
-
-	function buttonClickHandler(page) {
-		console.log("Page: " + page);
-		setCurrentPage(page);
-		console.log("Current page: " + currentPage);
-	}
 
 	const recipesToDisplay =
 		searchParams == ""

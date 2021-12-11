@@ -1,21 +1,24 @@
 import "./Navbar.css";
 import NavItem from "../NavItem/NavItem";
-import { logout } from "../../services/authService";
+import { authLogout } from "../../services/authService";
 import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import AuthContext from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function Navbar({ authHandler }) {
-	const { isAuthenticated } = useContext(AuthContext);
+	const { isAuthenticated, logout } = useContext(AuthContext);
 	const navigate = useNavigate();
-	const logoutUser = async () => {
-		const result = await logout();
-		await authHandler();
-		navigate("/");
+	const logoutUser = async (e) => {
+		e.preventDefault();
+		const result = await authLogout();
+
+		if (result.ok) {
+			logout();
+			navigate("/");
+		}
 	};
 
 	const userAuthenticationSection = () => {
-		console.log(isAuthenticated);
 		if (!isAuthenticated) {
 			return (
 				<>
@@ -25,8 +28,8 @@ function Navbar({ authHandler }) {
 			);
 		} else {
 			return (
-				<li href="#" className="nav-item" onClick={logoutUser}>
-					<a href="#" className="nav-link" aria-current="page">
+				<li className="nav-item" onClick={logoutUser}>
+					<a href="/" className="nav-link" aria-current="page">
 						Logout
 					</a>
 				</li>

@@ -1,24 +1,28 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getUserRecipes } from "../../services/recipesService";
 import RecipesCard from "../RecipesCard/RecipesCard";
 import Pagination from "../Pagination/Pagination";
 import "./UserProfile.css";
-import AuthContext from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import Loader from "../Loader/Loader";
 import { deleteRecipe } from "../../services/recipesService";
 import SearchBar from "../SearchBar/SearchBar";
+import usePagination from "../../hooks/usePagination";
+import useSearch from "../../hooks/useSearch";
 
 function UserProfile({ isInUserProfile = false, authHandler }) {
-	const postsPerPage = 9;
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
-	const [searchParameter, setSearchParameter] = useState("");
+	const { searchQuery, onClickSearch } = useSearch();
 	const [userData, setUserData] = useState({ username: "", imageName: "" });
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1);
 	const { username } = useParams();
-	const { user } = useContext(AuthContext);
+	const { user, logout } = useAuth();
+	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(
+		9,
+		searchQuery
+	);
 
 	useEffect(async () => {
 		try {
@@ -28,9 +32,8 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 			if (result !== null) {
 				setIsLoading(false);
 			}
-			console.log(result);
 			if (result.status === 401) {
-				authHandler();
+				logout();
 				navigate("/");
 			} else {
 				setRecipes(result.recipes);
@@ -53,26 +56,18 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 		}
 	}
 
-	function buttonClickHandler(page) {
-		setCurrentPage(page);
-	}
-
-	function onClickSearch(searchParams) {
-		setSearchParameter(searchParams);
-	}
-
 	function renderRecipes() {
-		if (searchParameter == "") {
+		if (searchQuery == "") {
 			return recipes;
 		}
 		return recipes.filter(
 			(recipe) =>
 				recipe.title
 					.toLowerCase()
-					.includes(searchParameter.toLowerCase()) ||
+					.includes(searchQuery.toLowerCase()) ||
 				recipe.description
 					.toLowerCase()
-					.includes(searchParameter.toLowerCase())
+					.includes(searchQuery.toLowerCase())
 		);
 	}
 
@@ -104,7 +99,7 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 							))}
 					</div>
 					<Pagination
-						key={searchParameter}
+						key={searchQuery}
 						totalPosts={renderRecipes().length}
 						postsPerPage={postsPerPage}
 						currentPage={currentPage}
@@ -135,7 +130,7 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 				className="user-avatar"
 				src={
 					isInUserProfile
-						? user.imageName
+						? user.avatar
 						: `/images/Avatars/${userData.imageName}`
 				}
 			/>

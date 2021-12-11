@@ -7,10 +7,12 @@ export async function register(formData) {
 		body: formData,
 	});
 
+	console.log(response);
+
 	return response;
 }
 
-export async function login(username, password) {
+export async function authLogin(username, password) {
 	const response = await fetch(`${baseUrl}/login`, {
 		method: "POST",
 		credentials: "include",
@@ -26,7 +28,7 @@ export async function login(username, password) {
 	return response;
 }
 
-export async function logout() {
+export async function authLogout() {
 	const response = await fetch(`${baseUrl}/logout`, {
 		method: "GET",
 		credentials: "include",
@@ -39,7 +41,7 @@ export async function logout() {
 	return result;
 }
 
-export async function isAuthenticated() {
+export async function authIsAuthenticated() {
 	const response = await fetch(`${baseUrl}/isAuthenticated`, {
 		method: "GET",
 		credentials: "include",

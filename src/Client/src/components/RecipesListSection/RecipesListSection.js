@@ -4,13 +4,10 @@ import FeatureImage from "../FeatureImage/FeatureImage";
 import RecipesCatalog from "../RecipesCatalog/RecipesCatalog";
 import SearchBar from "../SearchBar/SearchBar";
 import background from "../../assets/cereal-g1778f911a_1920.jpg";
+import useSearch from "../../hooks/useSearch";
 
 function RecipesListSection() {
-	const [searchQuery, setSearchQuery] = useState("");
-
-	const onClickSearch = (searchParams) => {
-		setSearchQuery(searchParams);
-	};
+	const { searchQuery, onClickSearch } = useSearch();
 
 	return (
 		<>
