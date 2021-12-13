@@ -13,8 +13,8 @@ namespace API.Data
 
         public DbSet<Recipe> Recipes { get; init; }
         public DbSet<User> Users { get; init; }
-
         public DbSet<RecipeLike> Likes { get; init; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

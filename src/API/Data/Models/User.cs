@@ -9,6 +9,7 @@ namespace API.Data.Models
         {
             this.Recipes = new HashSet<Recipe>();
             this.UserLikes = new HashSet<RecipeLike>();
+            this.Comments = new HashSet<Comment>();
         }
 
         public Guid Id { get; init; }
@@ -24,5 +25,7 @@ namespace API.Data.Models
         public virtual ICollection<Recipe> Recipes { get; set; }
 
         public virtual ICollection<RecipeLike> UserLikes { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

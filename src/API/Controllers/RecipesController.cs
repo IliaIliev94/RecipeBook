@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Data.Models;
+using API.Models.Comments;
 using API.Models.Recipes;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -47,6 +48,8 @@ namespace API.Controllers
             var recipe = this.context
                 .Recipes
                 .Include(recipe => recipe.Creater)
+                .Include(recipe => recipe.Comments)
+                .ThenInclude(comment => comment.User)
                 .FirstOrDefault(recipe => recipe.Id == id);
 
 
@@ -66,6 +69,15 @@ namespace API.Controllers
                 Username = recipe.Creater.Username,
                 UserImage = recipe.Creater.ImageName,
                 UsersLiked = context.Likes.Where(like => like.RecipeId == id).Select(like => like.User.Username).ToList(),
+                Comments = recipe.Comments.OrderByDescending(comment => comment.Date).Select(comment => new CommentViewModel 
+                    { 
+                        Id = comment.Id,
+                        Message = comment.Message, 
+                        Date = comment.Date.ToString("dd MMM yyyy"),
+                        Username = comment.User.Username,
+                        UserImage = comment.User.ImageName,
+                    })
+                .ToList()
             };
 
             return result;

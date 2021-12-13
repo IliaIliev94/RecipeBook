@@ -83,7 +83,8 @@ namespace API
                                       builder.WithOrigins("http://localhost:3000")
                                                                 .AllowAnyHeader()
                                                                 .AllowAnyMethod()
-                                                                .AllowCredentials();
+                                                                .AllowCredentials()
+                                                                .SetIsOriginAllowed((host) => true);
                                   });
             });
 

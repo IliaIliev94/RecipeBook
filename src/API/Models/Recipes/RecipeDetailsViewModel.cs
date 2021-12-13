@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using API.Models.Comments;
+using System.Collections.Generic;
 
 namespace API.Models.Recipes
 {
@@ -8,6 +9,7 @@ namespace API.Models.Recipes
         public RecipeDetailsViewModel()
         {
             this.UsersLiked = new HashSet<string>();
+            this.Comments = new HashSet<CommentViewModel>();
         }
 
         public string Title { get; set; }
@@ -27,5 +29,7 @@ namespace API.Models.Recipes
         public string UserImage { get; set; }
 
         public IEnumerable<string> UsersLiked { get; set; }
+
+        public IEnumerable<CommentViewModel> Comments { get; set; }
     }
 }
