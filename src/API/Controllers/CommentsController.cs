@@ -49,5 +49,21 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            var comment = this.context.Comments.FirstOrDefault(comment => comment.Id == id);
+
+            if(comment == null)
+            {
+                return NotFound();
+            }
+
+            this.context.Comments.Remove(comment);
+            this.context.SaveChanges();
+            return Ok();
+        }
     }
 }

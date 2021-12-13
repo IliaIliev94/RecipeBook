@@ -1,14 +1,14 @@
 import "./CommentList.css";
 import { useAuth } from "../../contexts/AuthContext";
 
-function CommentList({ comment }) {
+function CommentList({ comment, deleteHandler }) {
 	const { user } = useAuth();
 	return (
 		<div class="container mt-5">
-			<div class="d-flex justify-content-center row">
+			<div class="d-flex justify-content-center row bg-light">
 				<div class="col-md-8">
 					<div class="d-flex flex-column comment-section">
-						<div class="bg-white p-2">
+						<div class="p-2">
 							<div class="d-flex flex-row user-info">
 								<img
 									class="rounded-circle"
@@ -28,7 +28,10 @@ function CommentList({ comment }) {
 								<p class="comment-text">{comment.message}</p>
 							</div>
 							{user.username == comment.username ? (
-								<button className="btn btn-danger">
+								<button
+									onClick={() => deleteHandler(comment.id)}
+									className="btn btn-danger"
+								>
 									Delete
 								</button>
 							) : (

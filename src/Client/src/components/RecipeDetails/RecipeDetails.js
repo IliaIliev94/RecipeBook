@@ -5,7 +5,7 @@ import {
 	likeRecipe,
 	unlikeRecipe,
 } from "../../services/recipesService";
-import { addComment } from "../../services/commentsService";
+import { addComment, removeComment } from "../../services/commentsService";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "./RecipeDetails.css";
@@ -14,6 +14,8 @@ import Error from "../Error/Error";
 import { useAuth } from "../../contexts/AuthContext";
 import AddComment from "../AddComment/AddComment";
 import CommentList from "../CommentList/CommentList";
+import usePagination from "../../hooks/usePagination";
+import Pagination from "../Pagination/Pagination";
 
 function RecipeDetails() {
 	const { isAuthenticated, user } = useAuth();
@@ -21,6 +23,7 @@ function RecipeDetails() {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const recipeId = useParams().id;
 	const navigate = useNavigate();
+	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(5);
 	useEffect(async () => {
 		try {
 			let result = await getOne(recipeId);
@@ -73,6 +76,19 @@ function RecipeDetails() {
 		if (result.ok) {
 			const comment = await result.json();
 			setRecipe({ ...recipe, comments: [comment, ...recipe.comments] });
+		}
+	};
+
+	const deleteComment = async (id) => {
+		const result = await removeComment(id);
+
+		if (result.ok) {
+			setRecipe({
+				...recipe,
+				comments: recipe.comments?.filter(
+					(comment) => comment.id !== id
+				),
+			});
 		}
 	};
 
@@ -163,9 +179,25 @@ function RecipeDetails() {
 
 				{renderUserFunctionality()}
 
-				{recipe.comments?.map((comment) => (
-					<CommentList comment={comment} />
-				))}
+				{recipe.comments
+					?.slice(
+						(currentPage - 1) * postsPerPage,
+						(currentPage - 1) * postsPerPage + postsPerPage
+					)
+					.map((comment) => (
+						<CommentList
+							comment={comment}
+							deleteHandler={deleteComment}
+						/>
+					))}
+
+				<Pagination
+					key={recipe.comments}
+					totalPosts={recipe.comments?.length}
+					postsPerPage={postsPerPage}
+					currentPage={currentPage}
+					onClickHandler={buttonClickHandler}
+				/>
 			</>
 		);
 	};

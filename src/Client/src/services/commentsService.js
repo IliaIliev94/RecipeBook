@@ -13,3 +13,12 @@ export async function addComment(recipeId, message) {
 
 	return response;
 }
+
+export async function removeComment(id) {
+	const response = await fetch(`${baseUrl}/delete/${id}`, {
+		method: "DELETE",
+		credentials: "include",
+	});
+
+	return response;
+}

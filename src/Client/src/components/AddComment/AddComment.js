@@ -1,4 +1,7 @@
-function AddComment({ avatar, submitHandler, clearHandler }) {
+function AddComment({ avatar, submitHandler }) {
+	const clearForm = (e) => {
+		e.currentTarget.parentNode.parentNode.parentNode.reset();
+	};
 	return (
 		<form
 			action="#"
@@ -6,6 +9,7 @@ function AddComment({ avatar, submitHandler, clearHandler }) {
 				e.preventDefault();
 				const comment = new FormData(e.currentTarget).get("comment");
 				submitHandler(comment);
+				e.currentTarget.reset();
 			}}
 		>
 			<div class="bg-light p-2">
@@ -24,7 +28,7 @@ function AddComment({ avatar, submitHandler, clearHandler }) {
 						Post comment
 					</button>
 					<button
-						onClick={clearHandler}
+						onClick={clearForm}
 						class="btn btn-outline-primary btn-sm ml-1 shadow-none"
 						type="button"
 					>
