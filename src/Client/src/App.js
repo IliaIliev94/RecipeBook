@@ -20,9 +20,9 @@ function App() {
 	return (
 		<div className="App">
 			<AuthProvider>
-				<Routes>
-					<Header />
-					<main>
+				<Header />
+				<main>
+					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route
 							path="/recipes"
@@ -75,9 +75,9 @@ function App() {
 							path="*"
 							element={<Error title="404">Not Found!</Error>}
 						></Route>
-					</main>
-					<Footer />
-				</Routes>
+					</Routes>
+				</main>
+				<Footer />
 			</AuthProvider>
 		</div>
 	);

@@ -6,9 +6,10 @@ const avatarUrl = "/images/Avatars";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+	const initialState = { username: "", avatar: "" };
 	const navigate = useNavigate();
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(initialState);
 
 	useEffect(async () => {
 		try {

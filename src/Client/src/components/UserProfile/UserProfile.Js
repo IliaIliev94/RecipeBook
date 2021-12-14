@@ -11,7 +11,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import usePagination from "../../hooks/usePagination";
 import useSearch from "../../hooks/useSearch";
 
-function UserProfile({ isInUserProfile = false, authHandler }) {
+function UserProfile({ isInUserProfile = false }) {
 	const navigate = useNavigate();
 	const [recipes, setRecipes] = useState([]);
 	const { searchQuery, onClickSearch } = useSearch();
@@ -42,6 +42,8 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 					imageName: result.imageName,
 				});
 			}
+
+			console.log(recipes);
 		} catch {
 			navigate("/500");
 		}
@@ -84,7 +86,10 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 					>
 						Search
 					</SearchBar>
-					<div className="row d-flex align-items-stretch justify-content-center">
+					<div
+						data-testid="user-recipes-container"
+						className="row d-flex align-items-stretch justify-content-center"
+					>
 						{renderRecipes()
 							.slice(
 								(currentPage - 1) * postsPerPage,
@@ -121,12 +126,16 @@ function UserProfile({ isInUserProfile = false, authHandler }) {
 
 	return (
 		<div className="container my-5">
-			<h2 className="text-center">
+			<h2
+				data-testid="user-profile-welcome-heading"
+				className="text-center"
+			>
 				{isInUserProfile
 					? `Welcome, ${user.username}`
 					: userData.username}
 			</h2>
 			<img
+				data-testid="user-profile-avatar"
 				className="user-avatar"
 				src={
 					isInUserProfile
