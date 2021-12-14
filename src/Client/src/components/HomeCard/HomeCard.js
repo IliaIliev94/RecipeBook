@@ -11,10 +11,16 @@ function HomeCard({ title, icon, children }) {
 							"url(http://res.cloudinary.com/d3/image/upload/c_scale,q_auto:good,w_1110/trianglify-v1-cs85g_cc5d2i.jpg)",
 					}}
 				></div>
-				<div class="card-custom-avatar">{icon}</div>
+				<div data-testid="homeCard-icon" className="card-custom-avatar">
+					{icon}
+				</div>
 				<div className="card-body" style={{ overflowY: "auto" }}>
-					<h4 className="card-title">{title}</h4>
-					<p className="card-text">{children}</p>
+					<h4 data-testid="homeCard-title" className="card-title">
+						{title}
+					</h4>
+					<p data-testid="homeCard-description" className="card-text">
+						{children}
+					</p>
 				</div>
 			</div>
 		</div>

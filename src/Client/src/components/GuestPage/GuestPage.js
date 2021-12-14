@@ -9,20 +9,27 @@ function GuestPage() {
 			<FeatureImage background="./images/static/guest.jpg">
 				<div className="overlay">
 					<section className="overlay-heading-container">
-						<h1 className="display-1">RecipeBook</h1>
-						<h2 className="display-4 my-3">
+						<h1 data-testid="title" className="display-1">
+							RecipeBook
+						</h1>
+						<h2 data-testid="heading" className="display-4 my-3">
 							An app where you can create and share recipes
 						</h2>
 					</section>
 
 					<section className="overlay-cta-container">
 						<Link
+							data-testid="register"
 							className="btn btn-outline-secondary"
 							to="/register"
 						>
 							Sign up
 						</Link>
-						<Link className="btn btn-outline-secondary" to="/login">
+						<Link
+							data-testid="login"
+							className="btn btn-outline-secondary"
+							to="/login"
+						>
 							Log in
 						</Link>
 					</section>
@@ -30,8 +37,9 @@ function GuestPage() {
 			</FeatureImage>
 			<div className="container mt-5">
 				<h2 className="my-5">A repository of user created recipes</h2>
-				<div className="row">
+				<div data-testid="cards-container" className="row">
 					<HomeCard
+						id="view-card"
 						title="View recipes"
 						icon={<i className="fas fa-utensils"></i>}
 					>

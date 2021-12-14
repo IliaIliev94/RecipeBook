@@ -50,46 +50,56 @@ function RecipeDetails() {
 	const likeHandler = async () => {
 		console.log(recipeId);
 		const result = await likeRecipe(recipeId);
-		if (result.ok) {
-			setRecipe({
-				...recipe,
-				usersLiked: [...recipe.usersLiked, user.username],
-			});
+		if (!result.ok) {
+			navigate("/400");
+			return;
 		}
+
+		setRecipe({
+			...recipe,
+			usersLiked: [...recipe.usersLiked, user.username],
+		});
 	};
 
 	const unlikeHandler = async () => {
 		const result = await unlikeRecipe(recipeId);
-		if (result.ok) {
-			setRecipe({
-				...recipe,
-				usersLiked: recipe.usersLiked?.filter(
-					(like) => like !== user.username
-				),
-			});
+		if (!result.ok) {
+			navigate("/400");
+			return;
 		}
+
+		setRecipe({
+			...recipe,
+			usersLiked: recipe.usersLiked?.filter(
+				(like) => like !== user.username
+			),
+		});
 	};
 
 	const postComment = async (message) => {
 		const result = await addComment(recipeId, message);
 
-		if (result.ok) {
-			const comment = await result.json();
-			setRecipe({ ...recipe, comments: [comment, ...recipe.comments] });
+		if (!result.ok) {
+			navigate("/400");
+			return;
 		}
+
+		const comment = await result.json();
+		setRecipe({ ...recipe, comments: [comment, ...recipe.comments] });
 	};
 
 	const deleteComment = async (id) => {
 		const result = await removeComment(id);
 
-		if (result.ok) {
-			setRecipe({
-				...recipe,
-				comments: recipe.comments?.filter(
-					(comment) => comment.id !== id
-				),
-			});
+		if (!result.ok) {
+			navigate("/400");
+			return;
 		}
+
+		setRecipe({
+			...recipe,
+			comments: recipe.comments?.filter((comment) => comment.id !== id),
+		});
 	};
 
 	const renderUserFunctionality = () => {
@@ -143,6 +153,7 @@ function RecipeDetails() {
 		if (!isLoaded) {
 			return <Loader />;
 		}
+
 		if (recipe.status === 400 || recipe.status === 404) {
 			return (
 				<Error title="404! Unexisting recipe!">
@@ -193,7 +204,7 @@ function RecipeDetails() {
 
 				<Pagination
 					key={recipe.comments}
-					totalPosts={recipe.comments?.length}
+					totalPosts={recipe.comments ? recipe.comments.length : 0}
 					postsPerPage={postsPerPage}
 					currentPage={currentPage}
 					onClickHandler={buttonClickHandler}
