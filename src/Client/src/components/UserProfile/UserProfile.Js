@@ -24,8 +24,8 @@ function UserProfile({ isInUserProfile = false }) {
 		searchQuery
 	);
 
-	useEffect(async () => {
-		try {
+	useEffect(() => {
+		async function fetchData() {
 			const result = isInUserProfile
 				? await getUserRecipes()
 				: await getUserRecipes(username);
@@ -42,11 +42,8 @@ function UserProfile({ isInUserProfile = false }) {
 					imageName: result.imageName,
 				});
 			}
-
-			console.log(recipes);
-		} catch {
-			navigate("/500");
 		}
+		fetchData();
 	}, [username]);
 
 	async function deleteHandler(id) {
@@ -115,8 +112,14 @@ function UserProfile({ isInUserProfile = false }) {
 		} else if (recipes.length <= 0 && isInUserProfile) {
 			return (
 				<>
-					<h2 className="text-center">No recipes yet!</h2>
-					<Link to="recipes/create" className="btn btn-primary">
+					<h2 data-testid="profile-heading" className="text-center">
+						No recipes yet!
+					</h2>
+					<Link
+						data-testid="add-recipe-cta"
+						to="recipes/create"
+						className="btn btn-primary"
+					>
 						Add recipes!
 					</Link>
 				</>

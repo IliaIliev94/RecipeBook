@@ -6,13 +6,21 @@ function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 		<div className="col-lg-4 my-1">
 			<div className="card h-100">
 				<img
+					data-testid="recipe-card-img"
 					src={recipe.imageURI}
 					className="card-img-top"
 					alt="Recipe Image"
 				/>
 				<div className="card-body d-flex flex-column">
-					<h5 className="card-title">{recipe.title}</h5>
-					<p className="card-text">{recipe.description}</p>
+					<h5 data-testid="recipe-card-title" className="card-title">
+						{recipe.title}
+					</h5>
+					<p
+						data-testid="recipe-card-description"
+						className="card-text"
+					>
+						{recipe.description}
+					</p>
 					<article className="d-flex flex-md-row flex-column justify-content-around card-body-cta mt-auto">
 						<Link
 							to={"/recipes/" + recipe.id}
