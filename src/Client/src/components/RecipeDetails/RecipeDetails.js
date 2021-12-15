@@ -24,17 +24,20 @@ function RecipeDetails() {
 	const recipeId = useParams().id;
 	const navigate = useNavigate();
 	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(5);
-	useEffect(async () => {
-		try {
-			let result = await getOne(recipeId);
-			console.log(result);
-			if (result !== null) {
-				setIsLoaded(true);
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				let result = await getOne(recipeId);
+				console.log(result);
+				if (result !== null) {
+					setIsLoaded(true);
+				}
+				setRecipe(result);
+			} catch {
+				navigate("/500");
 			}
-			setRecipe(result);
-		} catch {
-			navigate("/500");
 		}
+		fetchData();
 	}, []);
 
 	async function deleteHandler() {
@@ -84,6 +87,9 @@ function RecipeDetails() {
 			return;
 		}
 
+		console.log("JSON");
+		console.log(result);
+
 		const comment = await result.json();
 		setRecipe({ ...recipe, comments: [comment, ...recipe.comments] });
 	};
@@ -103,16 +109,21 @@ function RecipeDetails() {
 	};
 
 	const renderUserFunctionality = () => {
-		if (recipe.isOwner) {
+		if (isAuthenticated && recipe.isOwner) {
 			return (
 				<>
 					<Link
+						data-testid="recipe-details-edit-cta"
 						className="btn btn-primary mr-4"
 						to={"/recipes/edit/" + recipeId}
 					>
 						Edit
 					</Link>
-					<a onClick={deleteHandler} className="btn btn-danger">
+					<a
+						data-testid="recipe-details-delete-cta"
+						onClick={deleteHandler}
+						className="btn btn-danger"
+					>
 						Delete
 					</a>
 				</>
@@ -123,6 +134,7 @@ function RecipeDetails() {
 				<>
 					{!recipe.usersLiked?.includes(user.username) ? (
 						<button
+							data-testid="recipe-details-like-cta"
 							onClick={likeHandler}
 							className={"btn btn-success"}
 						>
@@ -130,14 +142,17 @@ function RecipeDetails() {
 						</button>
 					) : (
 						<button
+							data-testid="recipe-details-unlike-cta"
 							onClick={unlikeHandler}
 							className="btn btn-primary"
 						>
 							Unlike {recipe.usersLiked?.length}
 						</button>
 					)}
-					<div className="container my-5">
-						<h3>Comments</h3>
+					<div
+						data-testid="recipe-details-add-comment-container"
+						className="container my-5"
+					>
 						<AddComment
 							avatar={user.avatar}
 							submitHandler={postComment}
@@ -166,41 +181,71 @@ function RecipeDetails() {
 			<>
 				<FeatureImage background={recipe.imageURI}>
 					<div className="jumbotron recipe-details-card col-lg-6 col-10">
-						<h1 className="display-4">{recipe.title}</h1>
+						<h1
+							data-testid="recipe-details-banner-title"
+							className="display-4"
+						>
+							{recipe.title}
+						</h1>
 						<hr className="my-4" />
-						<p className="display-4">
+						<p
+							data-testid="recipe-details-banner-time"
+							className="display-4"
+						>
 							{recipe.minMinutes} - {recipe.maxMinutes} minutes
 						</p>
 					</div>
 				</FeatureImage>
 				<article class="container text-center">
-					<h2 className="display-3 my-5">{recipe.title}</h2>
-					<p className="my-5 text-justify">{recipe.description}</p>
+					<h2
+						data-testid="recipe-details-title"
+						className="display-3 my-5"
+					>
+						{recipe.title}
+					</h2>
+					<p
+						data-testid="recipe-details-description"
+						className="my-5 text-justify"
+					>
+						{recipe.description}
+					</p>
 				</article>
 				<article>
 					<h3>Created by:</h3>
-					<Link to={"/users/" + recipe.username}>
+					<Link
+						data-testid="recipe-details-user-profile-cta"
+						to={"/users/" + recipe.username}
+					>
 						<img
+							data-testid="recipe-details-user-avatar"
 							className="avatar"
 							src={"/images/Avatars/" + recipe.userImage}
 						/>
-						<h3>{recipe.username}</h3>
+						<h3 data-testid="recipe-details-username">
+							{recipe.username}
+						</h3>
 					</Link>
 				</article>
 
 				{renderUserFunctionality()}
 
-				{recipe.comments
-					?.slice(
-						(currentPage - 1) * postsPerPage,
-						(currentPage - 1) * postsPerPage + postsPerPage
-					)
-					.map((comment) => (
-						<CommentList
-							comment={comment}
-							deleteHandler={deleteComment}
-						/>
-					))}
+				<div
+					data-testid="recipe-details-comments-container"
+					className="container mt-5"
+				>
+					<h3>Comments</h3>
+					{recipe.comments
+						?.slice(
+							(currentPage - 1) * postsPerPage,
+							(currentPage - 1) * postsPerPage + postsPerPage
+						)
+						.map((comment) => (
+							<CommentList
+								comment={comment}
+								deleteHandler={deleteComment}
+							/>
+						))}
+				</div>
 
 				<Pagination
 					key={recipe.comments}

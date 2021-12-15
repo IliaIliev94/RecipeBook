@@ -4,6 +4,7 @@ function AddComment({ avatar, submitHandler }) {
 	};
 	return (
 		<form
+			data-testid="comment-submit-form"
 			action="#"
 			onSubmit={(e) => {
 				e.preventDefault();
@@ -16,6 +17,7 @@ function AddComment({ avatar, submitHandler }) {
 				<div class="d-flex flex-row align-items-start">
 					<img class="rounded-circle" src={avatar} width="40" />
 					<textarea
+						data-testid="submit-comment-form-text"
 						class="form-control ml-1 shadow-none textarea"
 						name="comment"
 					></textarea>
