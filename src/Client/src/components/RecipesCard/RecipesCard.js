@@ -23,6 +23,7 @@ function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 					</p>
 					<article className="d-flex flex-md-row flex-column justify-content-around card-body-cta mt-auto">
 						<Link
+							data-testid="recipes-card-details-cta"
 							to={"/recipes/" + recipe.id}
 							className="btn btn-primary card-button mt-3 mt-md-auto"
 						>
@@ -31,12 +32,14 @@ function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 						{isInUserProfile ? (
 							<>
 								<Link
+									data-testid="recipes-card-edit-cta"
 									className="btn btn-warning card-button mt-3 mt-md-0"
 									to={"recipes/edit/" + recipe.id}
 								>
 									Edit
 								</Link>
 								<button
+									data-testid="recipes-card-delete-cta"
 									onClick={() => deleteHandler(recipe.id)}
 									className="btn btn-danger card-button mt-3 mt-md-0"
 								>

@@ -5,6 +5,8 @@ import {
 	findByTestId,
 	waitFor,
 	getByTestId,
+	fireEvent,
+	getAllByTestId,
 } from "@testing-library/react";
 import Enzyme, { shallow, mount } from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
@@ -118,6 +120,27 @@ describe("UserProfile", () => {
 			expect(profileHeading).toHaveTextContent("No recipes yet!");
 			expect(addRecipeCta).toHaveTextContent("Add recipes!");
 			expect(addRecipeCta).toHaveAttribute("href", "/recipes/create");
+		});
+	});
+
+	test("delete recipe works correctly", async () => {
+		recipesService.deleteRecipe.mockResolvedValue({ ok: true });
+
+		const { getByTestId, getAllByTestId, getByText, queryByText } = render(
+			<MemoryRouter>
+				<AuthProvider>
+					<UserProfile isInUserProfile={true} />
+				</AuthProvider>
+			</MemoryRouter>
+		);
+
+		await waitFor(() => {
+			fireEvent.click(getAllByTestId("recipes-card-delete-cta")[0]);
+			expect(
+				getByTestId("user-recipes-container").childElementCount
+			).toBe(1);
+			expect(getByText("Test2")).toBeInTheDocument();
+			expect(queryByText("Test1")).not.toBeInTheDocument();
 		});
 	});
 });
