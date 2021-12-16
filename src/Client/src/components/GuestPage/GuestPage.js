@@ -56,7 +56,7 @@ function GuestPage() {
 					</HomeCard>
 					<HomeCard
 						title="Modify recipes"
-						icon={<i class="fas fa-edit"></i>}
+						icon={<i className="fas fa-edit"></i>}
 					>
 						Keep track of your collection of recipes and edit/delete
 						them when you see as fit

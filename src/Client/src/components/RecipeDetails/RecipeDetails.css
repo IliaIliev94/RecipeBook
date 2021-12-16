@@ -8,3 +8,9 @@
 	transform: translate(-50%);
 	padding-bottom: 0px;
 }
+
+.recipe-details-container {
+	background: white;
+	margin-bottom: -120px;
+	padding-bottom: 120px;
+}

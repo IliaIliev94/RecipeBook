@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 	return (
-		<div className="col-lg-4 my-1">
-			<div className="card h-100">
+		<div className="col-lg-4 my-3">
+			<div className="card h-100 border-0 recipe-card-container">
 				<img
 					data-testid="recipe-card-img"
 					src={recipe.imageURI}

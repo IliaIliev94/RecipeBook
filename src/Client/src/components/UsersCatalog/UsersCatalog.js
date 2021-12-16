@@ -56,7 +56,7 @@ function UsersCatalog() {
 								(currentPage - 1) * postsPerPage + postsPerPage
 							)
 							.map((user) => (
-								<UserCard user={user} />
+								<UserCard key={user.username} user={user} />
 							))}
 					</div>
 					<Pagination

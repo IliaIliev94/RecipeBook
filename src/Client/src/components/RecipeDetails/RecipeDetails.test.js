@@ -27,6 +27,7 @@ const recipe = {
 	username: "TestCook",
 	userImage: "default-avatar.png",
 	usersLiked: [],
+	comments: [{ message: "Test" }],
 };
 
 describe("RecipeDetails", () => {
@@ -233,11 +234,12 @@ describe("RecipeDetails", () => {
 		commentsService.addComment.mockReturnValue(
 			JSON.stringify({
 				ok: true,
-
-				username: "Test",
-				message: "Test comment",
-				date: "16 Dec 2021",
-				userImage: "default-avatar.png",
+				body: {
+					username: "Test",
+					message: "Test comment",
+					date: "16 Dec 2021",
+					userImage: "default-avatar.png",
+				},
 			})
 		);
 
@@ -262,7 +264,7 @@ describe("RecipeDetails", () => {
 				"recipe-details-comments-container"
 			);
 
-			expect(commentsContainer.childElementCount).toBe(1);
+			expect(commentsContainer.childElementCount).toBe(2);
 			const text = await findByTestId("submit-comment-form-text");
 			fireEvent.change(text, { target: { value: "My comment" } });
 			const commentSubmitForm = await findByTestId("comment-submit-form");

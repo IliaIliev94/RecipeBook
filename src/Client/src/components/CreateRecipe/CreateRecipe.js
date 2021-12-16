@@ -40,7 +40,10 @@ function CreateRecipe() {
 			alert("Incorrect data try again!");
 			return;
 		}
-		navigate("/");
+
+		const id = await result.json();
+
+		navigate("/recipes/" + id);
 	}
 	return (
 		<RecipeForm

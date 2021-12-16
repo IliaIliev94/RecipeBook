@@ -16,16 +16,18 @@ function RecipesCatalog({ searchParams }) {
 		searchParams
 	);
 
-	useEffect(async () => {
-		try {
-			let result = await getRecipes();
-			setRecipes(result);
-			if (result !== null) {
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				let result = await getRecipes();
+				console.log(result);
+				setRecipes(result);
 				setIsLoaded(true);
+			} catch {
+				navigate("/500");
 			}
-		} catch {
-			navigate("/500");
 		}
+		fetchData();
 	}, []);
 
 	const recipesToDisplay =
@@ -58,7 +60,10 @@ function RecipesCatalog({ searchParams }) {
 				);
 			} else {
 				return (
-					<h2 className="mx-auto">
+					<h2
+						data-testid="recipes-catalog-no-recipes"
+						className="mx-auto"
+					>
 						No recipes yet! You can add some!
 					</h2>
 				);
@@ -72,7 +77,10 @@ function RecipesCatalog({ searchParams }) {
 		<>
 			<h2 className="mt-4">Recipes</h2>
 			<div className="container my-5">
-				<div className="row d-flex align-items-stretch">
+				<div
+					data-testid="recipes-catalog-container"
+					className="row d-flex align-items-stretch"
+				>
 					{renderCatalog()}
 				</div>
 				{recipesToDisplay.length > 0 ? (

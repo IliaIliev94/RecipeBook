@@ -87,9 +87,6 @@ function RecipeDetails() {
 			return;
 		}
 
-		console.log("JSON");
-		console.log(result);
-
 		const comment = await result.json();
 		setRecipe({ ...recipe, comments: [comment, ...recipe.comments] });
 	};
@@ -178,7 +175,7 @@ function RecipeDetails() {
 		}
 
 		return (
-			<>
+			<section className="recipe-details-container">
 				<FeatureImage background={recipe.imageURI}>
 					<div className="jumbotron recipe-details-card col-lg-6 col-10">
 						<h1
@@ -229,23 +226,27 @@ function RecipeDetails() {
 
 				{renderUserFunctionality()}
 
-				<div
-					data-testid="recipe-details-comments-container"
-					className="container mt-5"
-				>
-					<h3>Comments</h3>
-					{recipe.comments
-						?.slice(
-							(currentPage - 1) * postsPerPage,
-							(currentPage - 1) * postsPerPage + postsPerPage
-						)
-						.map((comment) => (
-							<CommentList
-								comment={comment}
-								deleteHandler={deleteComment}
-							/>
-						))}
-				</div>
+				{recipe.comments?.length > 0 ? (
+					<div
+						data-testid="recipe-details-comments-container"
+						className="container mt-5 p-5"
+					>
+						<h3>Comments</h3>
+						{recipe.comments
+							?.slice(
+								(currentPage - 1) * postsPerPage,
+								(currentPage - 1) * postsPerPage + postsPerPage
+							)
+							.map((comment) => (
+								<CommentList
+									comment={comment}
+									deleteHandler={deleteComment}
+								/>
+							))}
+					</div>
+				) : (
+					""
+				)}
 
 				<Pagination
 					key={recipe.comments}
@@ -254,7 +255,7 @@ function RecipeDetails() {
 					currentPage={currentPage}
 					onClickHandler={buttonClickHandler}
 				/>
-			</>
+			</section>
 		);
 	};
 

@@ -103,7 +103,7 @@ namespace API.Controllers
 
             var result = context.Recipes.FirstOrDefault(recipe => recipe.Id == newRecipe.Id);
 
-            return Ok();
+            return Ok(newRecipe.Id);
         }
 
         [HttpPut("edit/{id}")]
@@ -124,7 +124,7 @@ namespace API.Controllers
 
             this.context.SaveChanges();
 
-            return Ok();
+            return Ok(recipeToEdit.Id);
         }
 
         [HttpDelete("delete/{id}")]

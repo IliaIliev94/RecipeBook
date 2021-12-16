@@ -29,30 +29,31 @@ function UserProfile({ isInUserProfile = false }) {
 			const result = isInUserProfile
 				? await getUserRecipes()
 				: await getUserRecipes(username);
-			if (result !== null) {
-				setIsLoading(false);
-			}
+
+			setIsLoading(false);
+
 			if (result.status === 401) {
 				logout();
 				navigate("/");
-			} else {
-				setRecipes(result.recipes);
-				setUserData({
-					username: result.username,
-					imageName: result.imageName,
-				});
+				return;
 			}
+			setRecipes(result.recipes);
+			setUserData({
+				username: result.username,
+				imageName: result.imageName,
+			});
 		}
 		fetchData();
 	}, [username]);
 
 	async function deleteHandler(id) {
 		const result = await deleteRecipe(id);
-		if (result.ok) {
-			setRecipes(recipes.filter((recipe) => recipe.id !== id));
-		} else {
+		if (!result.ok) {
 			navigate("/400");
+			return;
 		}
+
+		setRecipes(recipes.filter((recipe) => recipe.id !== id));
 	}
 
 	function renderRecipes() {
@@ -94,6 +95,7 @@ function UserProfile({ isInUserProfile = false }) {
 							)
 							.map((recipe) => (
 								<RecipesCard
+									key={recipe.id}
 									isInUserProfile={isInUserProfile}
 									recipe={recipe}
 									deleteHandler={deleteHandler}

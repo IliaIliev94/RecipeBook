@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function UserCard({ user: { imageName, username, recipesCount } }) {
 	return (
-		<div className="col-12 col-md-6">
+		<div className="col-12 col-md-6 my-2">
 			<div className="card">
 				<div className="row no-gutters">
 					<div className="col-sm-5 card-profile">
