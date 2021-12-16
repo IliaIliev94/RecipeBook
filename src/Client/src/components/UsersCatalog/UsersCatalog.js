@@ -15,12 +15,16 @@ function UsersCatalog() {
 		10,
 		searchQuery
 	);
-	useEffect(async () => {
-		const result = await getUsers();
-		if (result !== null) {
-			setIsLoading(false);
+	useEffect(() => {
+		async function fetchData() {
+			const result = await getUsers();
+			console.log(result);
+			if (result !== null) {
+				setIsLoading(false);
+			}
+			setUsers(result);
 		}
-		setUsers(result);
+		fetchData();
 	}, []);
 
 	const renderUsers = () => {
@@ -36,13 +40,16 @@ function UsersCatalog() {
 	const renderUsersCatalogue = () => {
 		if (isLoading) {
 			return <Loader />;
-		} else if (users.length > 0) {
+		} else if (users?.length > 0) {
 			return (
 				<>
 					<SearchBar placeholder="User" onClickSearch={onClickSearch}>
 						Search
 					</SearchBar>
-					<div className="row">
+					<div
+						data-testid="users-catalog-users-container"
+						className="row"
+					>
 						{renderUsers()
 							.slice(
 								(currentPage - 1) * postsPerPage,
