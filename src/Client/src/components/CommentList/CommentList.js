@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 function CommentList({ comment, deleteHandler }) {
 	const { user } = useAuth();
 	return (
-		<div class="d-flex justify-content-center row bg-light">
+		<div class="d-flex justify-content-center row bg-light comment-container">
 			<div class="col-md-8">
 				<div class="d-flex flex-column comment-section">
 					<div class="p-2">
