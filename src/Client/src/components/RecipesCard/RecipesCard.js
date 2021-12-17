@@ -11,8 +11,8 @@ function RecipesCard({
 }) {
 	const {
 		user: { username },
+		isAuthenticated,
 	} = useAuth();
-	console.log(username);
 	const isLiked =
 		username === ""
 			? false
@@ -71,9 +71,13 @@ function RecipesCard({
 				<div class="card-footer text-left">
 					<p
 						onClick={() =>
-							isLiked
-								? unlikeHandler(recipe.id, username)
-								: likeHandler(recipe.id, username)
+							isAuthenticated
+								? isLiked
+									? unlikeHandler(recipe.id, username)
+									: likeHandler(recipe.id, username)
+								: () => {
+										return;
+								  }
 						}
 						class="text-muted card-footer-likes"
 					>

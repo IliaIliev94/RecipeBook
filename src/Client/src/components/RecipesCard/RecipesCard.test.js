@@ -33,6 +33,12 @@ describe("RecipesCard", () => {
 					deleteHandler={() => {
 						return;
 					}}
+					likeHandler={() => {
+						return;
+					}}
+					unlikeHandler={() => {
+						return;
+					}}
 				/>
 			</MemoryRouter>
 		);
@@ -45,6 +51,12 @@ describe("RecipesCard", () => {
 				<RecipeCard
 					recipe={recipe}
 					deleteHandler={() => {
+						return;
+					}}
+					likeHandler={() => {
+						return;
+					}}
+					unlikeHandler={() => {
 						return;
 					}}
 				/>
@@ -68,6 +80,12 @@ describe("RecipesCard", () => {
 					recipe={recipe}
 					isInUserProfile={true}
 					deleteHandler={deleteHandler}
+					likeHandler={() => {
+						return;
+					}}
+					unlikeHandler={() => {
+						return;
+					}}
 				/>
 			</MemoryRouter>
 		);
@@ -91,6 +109,12 @@ describe("RecipesCard", () => {
 				<RecipeCard
 					recipe={recipe}
 					deleteHandler={() => {
+						return;
+					}}
+					likeHandler={() => {
+						return;
+					}}
+					unlikeHandler={() => {
 						return;
 					}}
 				/>
