@@ -53,6 +53,8 @@ export const validateRecipe = (
 	}
 	if (!imageURI) {
 		errors.imageURI = "Image URI can't be empty!";
+	} else if (!/https?:\/\/.*\.(?:png|jpg)/.test(imageURI)) {
+		errors.imageURI = "Invalid image URI";
 	}
 	if (!description) {
 		errors.description = "Description can't be empty!";

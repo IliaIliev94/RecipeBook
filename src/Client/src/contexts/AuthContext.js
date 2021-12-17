@@ -11,18 +11,21 @@ export const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	const [user, setUser] = useState(initialState);
 
-	useEffect(async () => {
-		try {
-			const result = await authIsAuthenticated();
-			console.log("auth");
-			if (result !== false) {
-				login(result.username, result.userImage);
-			} else {
-				logout();
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const result = await authIsAuthenticated();
+				console.log("auth");
+				if (result !== false) {
+					login(result.username, result.userImage);
+				} else {
+					logout();
+				}
+			} catch {
+				navigate("/500");
 			}
-		} catch {
-			navigate("/500");
 		}
+		fetchData();
 	}, []);
 
 	const login = (username, avatar) => {

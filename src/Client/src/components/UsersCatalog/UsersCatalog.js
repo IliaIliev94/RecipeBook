@@ -68,9 +68,8 @@ function UsersCatalog() {
 					/>
 				</>
 			);
-		} else {
-			return <h3>No users were created at this moment!</h3>;
 		}
+		return <h3>No users were created at this moment!</h3>;
 	};
 	return (
 		<div className="container my-5">
