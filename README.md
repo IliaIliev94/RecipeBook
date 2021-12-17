@@ -4,6 +4,8 @@
 
 For the best experience it is recommended to run the API server with .NET 6 installed
 
+Heroku App - https://recipe-book-ilia.herokuapp.com/
+
 ## Users and permissions
 
 1. Visitors (loget out users) - can view recipes, a list of users and their profiles, as well as register.

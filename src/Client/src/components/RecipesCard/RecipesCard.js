@@ -9,15 +9,18 @@ function RecipesCard({
 	likeHandler,
 	unlikeHandler,
 }) {
+
 	const {
 		user: { username },
 		isAuthenticated,
 	} = useAuth();
+
 	const isLiked = !isAuthenticated
 		? false
 		: recipe.usersLiked?.includes(username)
 		? true
 		: false;
+		
 	return (
 		<div className="col-lg-4 my-3">
 			<div className="card h-100 border-0 recipe-card-container">

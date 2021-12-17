@@ -80,7 +80,7 @@ namespace API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:3000")
+                                      builder.WithOrigins("http://localhost:3000", "https://recipe-book-ilia.herokuapp.com/")
                                                                 .AllowAnyHeader()
                                                                 .AllowAnyMethod()
                                                                 .AllowCredentials()
