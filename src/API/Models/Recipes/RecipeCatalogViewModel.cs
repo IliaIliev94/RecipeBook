@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace API.Models.Recipes
 {
@@ -15,5 +16,7 @@ namespace API.Models.Recipes
         public int? MinMinutes { get; set; }
 
         public int? MaxMinutes { get; set; }
+
+        public IEnumerable<string> UsersLiked { get; set; }
     }
 }

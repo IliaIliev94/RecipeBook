@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RecipesCard from "../RecipesCard/RecipesCard";
-import { getRecipes } from "../../services/recipesService";
+import {
+	getRecipes,
+	likeRecipe,
+	unlikeRecipe,
+} from "../../services/recipesService";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import "../Loader/Loader.css";
@@ -30,6 +34,38 @@ function RecipesCatalog({ searchParams }) {
 		fetchData();
 	}, []);
 
+	const likeHandler = async (recipeId, username) => {
+		const result = await likeRecipe(recipeId);
+		if (!result.ok) {
+			navigate("/400");
+			return;
+		}
+		const recipesCopy = [...recipes];
+		const recipe = recipesCopy.filter(
+			(recipe) => recipe.id === recipeId
+		)[0];
+		recipe.usersLiked?.push(username);
+		setRecipes([...recipesCopy]);
+	};
+
+	const unlikeHandler = async (recipeId, username) => {
+		console.log(username);
+		const result = await unlikeRecipe(recipeId);
+		if (!result.ok) {
+			navigate("/400");
+			return;
+		}
+		const recipesCopy = [...recipes];
+		const recipe = recipesCopy.filter(
+			(recipe) => recipe.id === recipeId
+		)[0];
+		console.log(recipe);
+		recipe.usersLiked = recipe.usersLiked?.filter(
+			(like) => like != username
+		);
+		setRecipes([...recipesCopy]);
+	};
+
 	const recipesToDisplay =
 		searchParams == ""
 			? recipes
@@ -54,7 +90,12 @@ function RecipesCatalog({ searchParams }) {
 								(currentPage - 1) * postsPerPage + postsPerPage
 							)
 							.map((recipe) => (
-								<RecipesCard key={recipe.id} recipe={recipe} />
+								<RecipesCard
+									key={recipe.id}
+									recipe={recipe}
+									likeHandler={likeHandler}
+									unlikeHandler={unlikeHandler}
+								/>
 							))}
 					</>
 				);

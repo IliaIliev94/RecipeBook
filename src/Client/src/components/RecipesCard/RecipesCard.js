@@ -1,7 +1,24 @@
 import "./RecipesCard.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
+function RecipesCard({
+	recipe,
+	isInUserProfile = false,
+	deleteHandler,
+	likeHandler,
+	unlikeHandler,
+}) {
+	const {
+		user: { username },
+	} = useAuth();
+	console.log(username);
+	const isLiked =
+		username === ""
+			? false
+			: recipe.usersLiked?.includes(username)
+			? true
+			: false;
 	return (
 		<div className="col-lg-4 my-3">
 			<div className="card h-100 border-0 recipe-card-container">
@@ -50,6 +67,22 @@ function RecipesCard({ recipe, isInUserProfile = false, deleteHandler }) {
 							""
 						)}
 					</article>
+				</div>
+				<div class="card-footer text-left">
+					<p
+						onClick={() =>
+							isLiked
+								? unlikeHandler(recipe.id, username)
+								: likeHandler(recipe.id, username)
+						}
+						class="text-muted card-footer-likes"
+					>
+						<i
+							style={{ color: isLiked ? "#007BFF" : "black" }}
+							class="fas fa-thumbs-up"
+						></i>
+						{recipe.usersLiked?.length}
+					</p>
 				</div>
 			</div>
 		</div>

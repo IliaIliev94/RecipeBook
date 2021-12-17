@@ -106,34 +106,34 @@ function RecipeDetails() {
 	};
 
 	const renderUserFunctionality = () => {
-		if (isAuthenticated && recipe.isOwner) {
-			return (
-				<>
-					<Link
-						data-testid="recipe-details-edit-cta"
-						className="btn btn-primary mr-4"
-						to={"/recipes/edit/" + recipeId}
-					>
-						Edit
-					</Link>
-					<a
-						data-testid="recipe-details-delete-cta"
-						onClick={deleteHandler}
-						className="btn btn-danger"
-					>
-						Delete
-					</a>
-				</>
-			);
-		}
 		if (isAuthenticated) {
 			return (
 				<>
+					{recipe.isOwner ? (
+						<article className="my-3">
+							<Link
+								data-testid="recipe-details-edit-cta"
+								className="btn btn-primary mr-4"
+								to={"/recipes/edit/" + recipeId}
+							>
+								Edit
+							</Link>
+							<a
+								data-testid="recipe-details-delete-cta"
+								onClick={deleteHandler}
+								className="btn btn-danger"
+							>
+								Delete
+							</a>
+						</article>
+					) : (
+						""
+					)}
 					{!recipe.usersLiked?.includes(user.username) ? (
 						<button
 							data-testid="recipe-details-like-cta"
 							onClick={likeHandler}
-							className={"btn btn-success"}
+							className={"btn btn-success d-block mx-auto"}
 						>
 							Like {recipe.usersLiked?.length}
 						</button>
@@ -158,7 +158,7 @@ function RecipeDetails() {
 				</>
 			);
 		}
-		return "";
+		return <h5>Likes: {recipe.usersLiked?.length}</h5>;
 	};
 
 	const renderDetails = () => {
