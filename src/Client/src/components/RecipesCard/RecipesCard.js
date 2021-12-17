@@ -9,6 +9,8 @@ function RecipesCard({
 	likeHandler,
 	unlikeHandler,
 }) {
+	console.log(likeHandler);
+	console.log(unlikeHandler);
 	const {
 		user: { username },
 		isAuthenticated,
@@ -79,11 +81,11 @@ function RecipesCard({
 										return;
 								  }
 						}
-						class="text-muted card-footer-likes"
+						className="text-muted card-footer-likes"
 					>
 						<i
 							style={{ color: isLiked ? "#007BFF" : "black" }}
-							class="fas fa-thumbs-up"
+							className="fas fa-thumbs-up"
 						></i>
 						{recipe.usersLiked?.length}
 					</p>

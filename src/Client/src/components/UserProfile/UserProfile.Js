@@ -6,7 +6,11 @@ import Pagination from "../Pagination/Pagination";
 import "./UserProfile.css";
 import { useAuth } from "../../contexts/AuthContext";
 import Loader from "../Loader/Loader";
-import { deleteRecipe } from "../../services/recipesService";
+import {
+	deleteRecipe,
+	likeRecipe,
+	unlikeRecipe,
+} from "../../services/recipesService";
 import SearchBar from "../SearchBar/SearchBar";
 import usePagination from "../../hooks/usePagination";
 import useSearch from "../../hooks/useSearch";
@@ -45,6 +49,38 @@ function UserProfile({ isInUserProfile = false }) {
 		}
 		fetchData();
 	}, [username]);
+
+	const likeHandler = async (recipeId, username) => {
+		const result = await likeRecipe(recipeId);
+		if (!result.ok) {
+			navigate("/400");
+			return;
+		}
+		const recipesCopy = [...recipes];
+		const recipe = recipesCopy.filter(
+			(recipe) => recipe.id === recipeId
+		)[0];
+		recipe.usersLiked?.push(username);
+		setRecipes([...recipesCopy]);
+	};
+
+	const unlikeHandler = async (recipeId, username) => {
+		console.log(username);
+		const result = await unlikeRecipe(recipeId);
+		if (!result.ok) {
+			navigate("/400");
+			return;
+		}
+		const recipesCopy = [...recipes];
+		const recipe = recipesCopy.filter(
+			(recipe) => recipe.id === recipeId
+		)[0];
+		console.log(recipe);
+		recipe.usersLiked = recipe.usersLiked?.filter(
+			(like) => like != username
+		);
+		setRecipes([...recipesCopy]);
+	};
 
 	async function deleteHandler(id) {
 		const result = await deleteRecipe(id);
@@ -99,7 +135,9 @@ function UserProfile({ isInUserProfile = false }) {
 									isInUserProfile={isInUserProfile}
 									recipe={recipe}
 									deleteHandler={deleteHandler}
-								></RecipesCard>
+									likeHandler={likeHandler}
+									unlikeHandler={unlikeHandler}
+								/>
 							))}
 					</div>
 					<Pagination

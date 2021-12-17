@@ -174,6 +174,7 @@ namespace API.Controllers
                         Description = recipe.Description.Substring(0, 100),
                         MinMinutes = recipe.MinMinutes,
                         MaxMinutes = recipe.MaxMinutes,
+                        UsersLiked = recipe.RecipeLikes.Select(like => like.User.Username).ToList(),
                     }).ToList()
                 }).First();
 
