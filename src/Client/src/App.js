@@ -59,7 +59,14 @@ function App() {
 							></Route>
 						</Route>
 
-						<Route path="/400">
+						<Route
+							path="/400"
+							element={
+								<Error title="400">
+									There was an error with the request!
+								</Error>
+							}
+						>
 							Bad request! There was an error with the request!
 						</Route>
 						<Route

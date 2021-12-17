@@ -9,18 +9,15 @@ function RecipesCard({
 	likeHandler,
 	unlikeHandler,
 }) {
-	console.log(likeHandler);
-	console.log(unlikeHandler);
 	const {
 		user: { username },
 		isAuthenticated,
 	} = useAuth();
-	const isLiked =
-		username === ""
-			? false
-			: recipe.usersLiked?.includes(username)
-			? true
-			: false;
+	const isLiked = !isAuthenticated
+		? false
+		: recipe.usersLiked?.includes(username)
+		? true
+		: false;
 	return (
 		<div className="col-lg-4 my-3">
 			<div className="card h-100 border-0 recipe-card-container">
@@ -87,7 +84,7 @@ function RecipesCard({
 							style={{ color: isLiked ? "#007BFF" : "black" }}
 							className="fas fa-thumbs-up"
 						></i>
-						{recipe.usersLiked?.length}
+						{recipe.usersLiked?.length} Likes
 					</p>
 				</div>
 			</div>

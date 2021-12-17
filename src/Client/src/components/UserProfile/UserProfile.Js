@@ -149,12 +149,13 @@ function UserProfile({ isInUserProfile = false }) {
 					/>
 				</>
 			);
-		} else if (recipes.length <= 0 && isInUserProfile) {
-			return (
-				<>
-					<h2 data-testid="profile-heading" className="text-center">
-						No recipes yet!
-					</h2>
+		}
+		return (
+			<>
+				<h2 data-testid="profile-heading" className="text-center">
+					No recipes yet!
+				</h2>
+				{isInUserProfile ? (
 					<Link
 						data-testid="add-recipe-cta"
 						to="recipes/create"
@@ -162,9 +163,11 @@ function UserProfile({ isInUserProfile = false }) {
 					>
 						Add recipes!
 					</Link>
-				</>
-			);
-		}
+				) : (
+					""
+				)}
+			</>
+		);
 	};
 
 	return (

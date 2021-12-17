@@ -9,6 +9,7 @@ import {
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import RecipeCard from "./RecipesCard";
+import { AuthProvider } from "../../contexts/AuthContext";
 
 const recipe = {
 	id: "1",
@@ -28,18 +29,20 @@ describe("RecipesCard", () => {
 	test("component renders successfully", () => {
 		const component = render(
 			<MemoryRouter>
-				<RecipeCard
-					recipe={recipe}
-					deleteHandler={() => {
-						return;
-					}}
-					likeHandler={() => {
-						return;
-					}}
-					unlikeHandler={() => {
-						return;
-					}}
-				/>
+				<AuthProvider>
+					<RecipeCard
+						recipe={recipe}
+						deleteHandler={() => {
+							return;
+						}}
+						likeHandler={() => {
+							return;
+						}}
+						unlikeHandler={() => {
+							return;
+						}}
+					/>
+				</AuthProvider>
 			</MemoryRouter>
 		);
 		expect(component).toBeTruthy();
@@ -48,18 +51,20 @@ describe("RecipesCard", () => {
 	test("component renders correctly", () => {
 		const { getByTestId } = render(
 			<MemoryRouter>
-				<RecipeCard
-					recipe={recipe}
-					deleteHandler={() => {
-						return;
-					}}
-					likeHandler={() => {
-						return;
-					}}
-					unlikeHandler={() => {
-						return;
-					}}
-				/>
+				<AuthProvider>
+					<RecipeCard
+						recipe={recipe}
+						deleteHandler={() => {
+							return;
+						}}
+						likeHandler={() => {
+							return;
+						}}
+						unlikeHandler={() => {
+							return;
+						}}
+					/>
+				</AuthProvider>
 			</MemoryRouter>
 		);
 
@@ -76,17 +81,19 @@ describe("RecipesCard", () => {
 		const deleteHandler = jest.fn(() => console.log("delete"));
 		const { getByTestId } = render(
 			<MemoryRouter>
-				<RecipeCard
-					recipe={recipe}
-					isInUserProfile={true}
-					deleteHandler={deleteHandler}
-					likeHandler={() => {
-						return;
-					}}
-					unlikeHandler={() => {
-						return;
-					}}
-				/>
+				<AuthProvider>
+					<RecipeCard
+						recipe={recipe}
+						isInUserProfile={true}
+						deleteHandler={deleteHandler}
+						likeHandler={() => {
+							return;
+						}}
+						unlikeHandler={() => {
+							return;
+						}}
+					/>
+				</AuthProvider>
 			</MemoryRouter>
 		);
 
@@ -106,18 +113,20 @@ describe("RecipesCard", () => {
 	test("edit and delete cta don't render if not in user profile", () => {
 		const { getByTestId, queryByTestId } = render(
 			<MemoryRouter>
-				<RecipeCard
-					recipe={recipe}
-					deleteHandler={() => {
-						return;
-					}}
-					likeHandler={() => {
-						return;
-					}}
-					unlikeHandler={() => {
-						return;
-					}}
-				/>
+				<AuthProvider>
+					<RecipeCard
+						recipe={recipe}
+						deleteHandler={() => {
+							return;
+						}}
+						likeHandler={() => {
+							return;
+						}}
+						unlikeHandler={() => {
+							return;
+						}}
+					/>
+				</AuthProvider>
 			</MemoryRouter>
 		);
 

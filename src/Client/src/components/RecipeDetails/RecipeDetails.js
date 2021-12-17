@@ -24,6 +24,7 @@ function RecipeDetails() {
 	const recipeId = useParams().id;
 	const navigate = useNavigate();
 	const { currentPage, buttonClickHandler, postsPerPage } = usePagination(5);
+
 	useEffect(() => {
 		async function fetchData() {
 			try {

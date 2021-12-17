@@ -10,8 +10,11 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import RecipesCatalog from "./RecipesCatalog";
 import * as recipesService from "../../services/recipesService";
+import { AuthProvider } from "../../contexts/AuthContext";
 
 jest.mock("../../services/recipesService");
+const likeHandler = jest.fn();
+const unlikeHandler = jest.fn();
 
 const recipes = [
 	{
@@ -43,7 +46,9 @@ describe("RecipeCatalog", () => {
 	test("component renders successfully", () => {
 		let component = render(
 			<MemoryRouter>
-				<RecipesCatalog searchParams={""} />
+				<AuthProvider>
+					<RecipesCatalog searchParams={""} />
+				</AuthProvider>
 			</MemoryRouter>
 		);
 		expect(component).toBeTruthy();
@@ -52,7 +57,9 @@ describe("RecipeCatalog", () => {
 	test("component renders correctly", async () => {
 		const { getByTestId } = render(
 			<MemoryRouter>
-				<RecipesCatalog searchParams={""} />
+				<AuthProvider>
+					<RecipesCatalog searchParams={""} />
+				</AuthProvider>
 			</MemoryRouter>
 		);
 
@@ -66,7 +73,9 @@ describe("RecipeCatalog", () => {
 	test("search works correctly", async () => {
 		const { getByTestId } = render(
 			<MemoryRouter>
-				<RecipesCatalog searchParams={"Test1"} />
+				<AuthProvider>
+					<RecipesCatalog searchParams={"Test1"} />
+				</AuthProvider>
 			</MemoryRouter>
 		);
 
@@ -81,7 +90,9 @@ describe("RecipeCatalog", () => {
 		recipesService.getRecipes.mockResolvedValue([]);
 		const { getByTestId } = render(
 			<MemoryRouter>
-				<RecipesCatalog searchParams={"Test1"} />
+				<AuthProvider>
+					<RecipesCatalog searchParams={"Test1"} />
+				</AuthProvider>
 			</MemoryRouter>
 		);
 

@@ -5,6 +5,7 @@ import {
 	getRecipes,
 	likeRecipe,
 	unlikeRecipe,
+	deleteRecipe,
 } from "../../services/recipesService";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
@@ -24,7 +25,6 @@ function RecipesCatalog({ searchParams }) {
 		async function fetchData() {
 			try {
 				let result = await getRecipes();
-				console.log(result);
 				setRecipes(result);
 				setIsLoaded(true);
 			} catch {
@@ -33,6 +33,17 @@ function RecipesCatalog({ searchParams }) {
 		}
 		fetchData();
 	}, []);
+
+	async function deleteHandler(id) {
+		console.log(id);
+		const result = await deleteRecipe(id);
+		if (!result.ok) {
+			navigate("/400");
+			return;
+		}
+
+		setRecipes(recipes.filter((recipe) => recipe.id !== id));
+	}
 
 	const likeHandler = async (recipeId, username) => {
 		const result = await likeRecipe(recipeId);
@@ -80,38 +91,35 @@ function RecipesCatalog({ searchParams }) {
 			  );
 
 	const renderCatalog = () => {
-		if (isLoaded) {
-			if (recipesToDisplay.length > 0) {
-				return (
-					<>
-						{recipesToDisplay
-							.slice(
-								(currentPage - 1) * postsPerPage,
-								(currentPage - 1) * postsPerPage + postsPerPage
-							)
-							.map((recipe) => (
-								<RecipesCard
-									key={recipe.id}
-									recipe={recipe}
-									likeHandler={likeHandler}
-									unlikeHandler={unlikeHandler}
-								/>
-							))}
-					</>
-				);
-			} else {
-				return (
-					<h2
-						data-testid="recipes-catalog-no-recipes"
-						className="mx-auto"
-					>
-						No recipes yet! You can add some!
-					</h2>
-				);
-			}
-		} else {
+		if (!isLoaded) {
 			return <Loader />;
 		}
+
+		if (recipesToDisplay.length > 0) {
+			return (
+				<>
+					{recipesToDisplay
+						.slice(
+							(currentPage - 1) * postsPerPage,
+							(currentPage - 1) * postsPerPage + postsPerPage
+						)
+						.map((recipe) => (
+							<RecipesCard
+								key={recipe.id}
+								recipe={recipe}
+								likeHandler={likeHandler}
+								unlikeHandler={unlikeHandler}
+								deleteHandler={deleteHandler}
+							/>
+						))}
+				</>
+			);
+		}
+		return (
+			<h2 data-testid="recipes-catalog-no-recipes" className="mx-auto">
+				No recipes yet! You can add some!
+			</h2>
+		);
 	};
 
 	return (
