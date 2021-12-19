@@ -20,6 +20,8 @@ export const validateRegister = (
 			"Password and password confirmation must match!";
 	}
 
+	console.log(errors);
+
 	return errors;
 };
 

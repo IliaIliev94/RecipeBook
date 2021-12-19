@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Link } from "react-router-dom";
 import FeatureImage from "../FeatureImage/FeatureImage";
 import RecipesCatalog from "../RecipesCatalog/RecipesCatalog";

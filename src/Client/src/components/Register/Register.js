@@ -94,7 +94,7 @@ function Register() {
 						name="email"
 						id="email"
 					/>
-					{errors.password && (
+					{errors.email && (
 						<p className="form-error">{errors.email}</p>
 					)}
 				</div>
