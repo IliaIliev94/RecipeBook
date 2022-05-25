@@ -1,35 +1,39 @@
 .card-img-top {
-	height: 300px;
-	object-fit: cover;
+    height: 300px;
+    object-fit: cover;
 }
 
 .card-button {
-	margin: auto auto 0 auto;
+    margin: auto auto 0 auto;
 }
 
 .card-body-cta {
-	width: 70%;
-	margin: 0 auto;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .recipe-card-container {
-	box-shadow: 0px 0px 12px 1px grey;
+    box-shadow: 0px 0px 12px 1px grey;
 }
 
 .card-footer {
-	padding: 5px 20px !important;
+    padding: 5px 20px !important;
 }
 
 .card-footer-likes {
-	font-size: 25px;
+    font-size: 25px;
 }
 
 .card-footer-likes:hover {
-	cursor: pointer;
+    cursor: pointer;
+}
+
+.fa-thumbs-up {
+    margin-right: 10px;
 }
 
 @media only screen and (max-width: 1000px) {
-	.card-button {
-		width: 100%;
-	}
+    .card-button {
+        width: 100%;
+    }
 }

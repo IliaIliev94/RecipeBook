@@ -63,7 +63,7 @@ namespace API
             })
              .AddCookie(options =>
              {
-                 options.Cookie.SameSite = SameSiteMode.Strict;
+                 options.Cookie.SameSite = SameSiteMode.Lax;
                  options.Cookie.IsEssential = true;
                  options.CookieManager = new ChunkingCookieManager();
              });
