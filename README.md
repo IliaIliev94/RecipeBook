@@ -7,7 +7,7 @@ For the best experience it is recommended to run the API server with .NET 6 inst
 ## How to run the app
 
 1. Clone the repository to your machine.
-2. Start the API solution
+2. Start the API solution.
 3. Open the react project directory (/Client subfolder) and run the command
    "npm install" to install all dependancies.
 4. After that start the client app with "npm start".
