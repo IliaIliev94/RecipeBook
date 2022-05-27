@@ -53,3 +53,9 @@ For the best experience it is recommended to run the API server with .NET 6 inst
 4.  Edit recipe (url - "/recipes/edit/:id")
     ![Edit recipe page](screenshots/Edit-recipe-1.png)
     ![Edit recipe page](screenshots/Edit-recipe-2.png)
+5.  Like recipe
+    ![Like recipe](screenshots/Like.png)
+    ![Like recipe](screenshots/Like1.png)
+6.  Comment recipe
+    ![Comment recipe](screenshots/Comment.png)
+    ![Comment recipe](screenshots/Comment1.png)
